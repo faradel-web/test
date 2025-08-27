@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ΠΟΛΙΤΙΣΜΟΣ - VASH CENTER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #edf2f7;
+        }
+        .block-title {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .option-label:hover {
+            background-color: #f7fafc;
+            border-color: #cbd5e0;
+        }
+        input[type="radio"]:checked + .option-label,
+        input[type="checkbox"]:checked + .option-label {
+            background-color: #ebf8ff;
+            border-color: #4299e1;
+        }
+        input[type="radio"],
+        input[type="checkbox"] {
+            display: none;
+        }
+        .option-char {
+            width: 2rem;
+            height: 2rem;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2d3748;
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+            margin-right: 0.75rem;
+        }
+        input[type="radio"]:checked + .option-label .option-char,
+        input[type="checkbox"]:checked + .option-label .option-char {
+             background-color: #4299e1;
+             color: white;
+        }
+        /* Стилі для перевірки відповідей */
+        .correct-answer {
+            background-color: #c6f6d5 !important;
+            border-color: #38a169 !important;
+        }
+        .incorrect-answer {
+            background-color: #fed7d7 !important;
+            border-color: #e53e3e !important;
+        }
+        .correct-answer .option-char {
+            background-color: #38a169 !important;
+            color: white !important;
+        }
+        .incorrect-answer .option-char {
+            background-color: #e53e3e !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="min-h-screen p-6">
+        
+        <header class="w-full max-w-5xl mx-auto mb-8">
+            <div class="text-center mb-4">
+                <img src="https://scontent.fath5-1.fna.fbcdn.net/v/t39.30808-6/330982011_859615068663122_1560724345479949798_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Joe26mwbL_oQ7kNvwGujyoD&_nc_oc=AdkKyrtULNHI8xIVfcLSrsDgOu0yS1FM2jYySV-EGXP2tkclgZeDpV4OJUDapIq-tpY&_nc_zt=23&_nc_ht=scontent.fath5-1.fna&_nc_gid=2I5kR87y_LRID0GjJAXvuA&oh=00_AfUgZxZfuWjxzOFa1VImhox-Fl1ONs2ohKRVinZnviMf2Q&oe=68B4A746" alt="Логотип VASH CENTER" class="h-12 w-12 rounded-full object-cover mx-auto">
+                <h1 class="text-lg font-extrabold text-[#1a237e] tracking-wide mt-2">VASH CENTER</h1>
+            </div>
+            
+            <div class="flex items-center justify-between py-4">
+                <div class="w-1/3 text-left">
+                    <a href="index.html" class="text-lg text-[#283593] hover:text-[#1a237e] font-semibold transition-colors">
+                        ← Πίσω στα θέματα
+                    </a>
+                </div>
+                <div class="w-1/3 text-center">
+                    <h2 class="text-4xl text-gray-800 font-bold uppercase">ΠΟΛΙΤΙΣΜΟΣ</h2>
+                </div>
+                <div class="w-1/3"></div>
+            </div>
+        </header>
+
+        <main class="w-full max-w-5xl mx-auto">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div id="topics-container" class="space-y-8">
+                    <!-- Питання генеруються тут -->
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        const allQuestions = [
+            // --- Multiple Choice ---
+            { id: 1, type: 'multiple-choice', question: 'Σύμφωνα με την ελληνική μυθολογία δύο θεοί του Ολύμπου διεκδίκησαν την προστασία της πόλεως των Αθηνών. Ποιοι ήταν οι θεοί αυτοί;', options: ['Η Αθηνά και η Δήμητρα', 'Η Αθηνά και ο Ποσειδώνας', 'Η Αθηνά και ο Άρης', 'Η Αθηνά και η Αφροδίτη'], correctAnswer: 'Β' },
+            { id: 2, type: 'multiple-choice', question: 'Σύμφωνα με τη Μυθολογία των αρχαίων Ελλήνων, οι μόνοι άνθρωποι που σώθηκαν από τον μεγάλο κατακλυσμό ήταν:', options: ['Ο Ζευς και ο Ποσειδώνας', 'Ο Περσεύς και η Ανδρομέδα', 'Ο Πάρης και η Ελένη', 'Ο Δευκαλίων και η Πύρρα'], correctAnswer: 'Δ' },
+            // --- Matching ---
+            { id: 3, type: 'matching', question: 'Αντιστοιχίσετε τους όρους της στήλης Ι με τους όρους της στήλης ΙΙ.', col1: ['Νίκη της Σαμοθράκης', 'Δισκοβόλος του Μύρωνα', 'Ερμής του Πραξιτέλη', 'Ο Ηνίοχος'], col2: ['Βρετανικό Μουσείο, Λονδίνο', 'Μουσείο του Λούβρου, Παρίσι', 'Αρχαιολογικό Μουσείο Δελφών', 'Αρχαιολογικό Μουσείο Αρχαίας Ολυμπίας'], correctAnswer: { '1': 'Β', '2': 'Α', '3': 'Δ', '4': 'Γ' } },
+            // --- Multiple Choice ---
+            { id: 4, type: 'multiple-choice', question: 'Σύμφωνα με τη Θεογονία του Ησίοδου, η θεά Αφροδίτη γεννήθηκε:', options: ['από τον αφρό της θάλασσας', 'σε μία σπηλιά της Αφρικής', 'από τον άφρονα Κένταυρο Ακταίωνα', 'από την αφράτη ζύμη της αμβροσίας'], correctAnswer: 'Α' },
+            // --- Converted Fill-in-the-blanks to Multiple Choice ---
+            { id: 5, type: 'multiple-choice', question: 'Ποια από τις παρακάτω επιλογές περιλαμβάνει τέσσερις από τους Δώδεκα Θεούς του Ολύμπου;', options: ['Δίας, Ήρα, Ηρακλής, Άρης', 'Ποσειδώνας, Απόλλωνας, Αθηνά, Αφροδίτη', 'Ερμής, Άρτεμις, Περσεφόνη, Δήμητρα', 'Ήφαιστος, Εστία, Πλούτωνας, Αχιλλέας'], correctAnswer: 'Β' },
+            // --- Matching ---
+            { id: 6, type: 'matching', question: 'Αντιστοιχίσετε τους όρους της στήλης Ι με τους όρους της στήλης ΙΙ.', col1: ['Νύμφες', 'Χάριτες', 'Ερινύες', 'Μούσες'], col2: ['θεότητες των Τεχνών και των Γραμμάτων', 'ημίθεες σχετιζόμενες με τα ποτάμια, τις λίμνες και τη βλάστηση', 'θεές της γοητείας, της δημιουργίας και της γονιμότητος', 'θεότητες-τιμωροί εγκληματιών ηθικής και φυσικής τάξεως πραγμάτων'], correctAnswer: { '1': 'Β', '2': 'Γ', '3': 'Δ', '4': 'Α' } },
+            // --- Multiple Choice ---
+            { id: 7, type: 'multiple-choice', question: 'Με ποιόν από τους θεούς του Ολύμπου συνδέεται ο μύθος της Ευρώπης;', options: ['Ήφαιστος', 'Δίας', 'Ποσειδώνας', 'Άρης'], correctAnswer: 'Β' },
+            { id: 8, type: 'multiple-choice', question: 'Η αργοναυτική εκστρατεία πήρε το όνομά της από:', options: ['τους ναύτες του Ιάσονα, που έπρεπε να κωπηλατούν αργά', 'από το καράβι του Ιάσωνα, το οποίο ονομαζόταν Αργώ', 'Από τον τόπο καταγωγής των ναυτών του Ιάσονα, οι οποίοι ήταν από το Άργος', 'Από τον ναυτικό προορισμό των ναυτών, ο οποίος ήταν η Αργολίδα'], correctAnswer: 'Β' },
+            // --- Multiple Image Choice ---
+            { id: 9, type: 'multiple-image-choice', question: 'Ποιες από τις φωτογραφίες ανήκουν σε έργα τέχνης του Κυκλαδικού πολιτισμού;', imageUrls: ['https://www.repro-tableaux.com/kunst/greek_school/group_draped_women_tanagra_hi.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Cycladic_figurine_from_Crete%2C_2600%E2%80%932300_BC%2C_AMH%2C_144675.jpg/800px-Cycladic_figurine_from_Crete%2C_2600%E2%80%932300_BC%2C_AMH%2C_144675.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Harp_player%2C_Cycladic_civilization_-_Greece.JPG/500px-Harp_player%2C_Cycladic_civilization_-_Greece.JPG', 'https://upload.wikimedia.org/wikipedia/commons/f/f5/%CE%98%CE%B5%CE%AC_%CF%84%CF%89%CE%BD_%CE%8C%CF%86%CE%B5%CF%89%CE%BD_6393.JPG'], options: ['Εικ. Α', 'Εικ. Β', 'Εικ. Γ', 'Εικ. Δ'], correctAnswers: ['Β', 'Γ'] },
+            { id: 10, type: 'multiple-image-choice', question: 'Ποιες από τις φωτογραφίες σχετίζονται με τον Μινωικό πολιτισμό;', imageUrls: ['https://p3-sdbk2-media.byteimg.com/tos-cn-i-xv4ileqgde/c6ab6e2211a34ad49e0123453018c135~tplv-xv4ileqgde-resize-w:750.image', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Kore,_Phrasikleia,_Ariston_of_Paros,_550-540_BC,_Mirhinous,_NAMA_4889,_102537.jpg/330px-Kore,_Phrasikleia,_Ariston_of_Paros,_550-540_BC,_Mirhinous,_NAMA_4889,_102537.jpg', 'https://ermakvagus.com/Europe/Greece/Mycenae/New%20folder%20(2)/471941080_a47d733748[1].jpg', 'https://www.greece-is.com/wp-content/uploads/2023/02/Minoan-Snake-Goddess.jpg'], options: ['Εικ. Α', 'Εικ. Β', 'Εικ. Γ', 'Εικ. Δ'], correctAnswers: ['Α', 'Δ'] },
+            // --- True/False ---
+            { id: 11, type: 'true-false', statements: ['Ο Ποσειδώνας ήταν ο θεός της θάλασσας', 'Το Θέατρο Ηρώδου Αττικού βρίσκεται στην Αθήνα', 'Το Ανάκτορο της Κνωσού βρίσκεται στην Κρήτη', 'Ο Ήφαιστος ήταν ο θεός της μουσικής και της αρμονίας'], correctAnswers: ['Σ', 'Σ', 'Σ', 'Λ'] },
+            // --- Multiple Choice ---
+            { id: 12, type: 'multiple-choice', question: 'Το 1820 ανακαλύφθηκε στη νήσο Μήλο ένα εντυπωσιακό άγαλμα της Αφροδίτης της ελληνιστικής περιόδου, το οποίο το επόμενο έτος φυγαδεύτηκε και έκτοτε εκτίθεται στο/στη:', options: ['Βρετανικό Μουσείο στο Λονδίνο', 'Μητροπολιτικό Μουσείο της Νέας Υόρκης', 'Μουσείο Λούβρο των Παρισίων', 'Γλυπτοθήκη της Κοπεγχάγης'], correctAnswer: 'Γ' },
+            // --- True/False ---
+            { id: 13, type: 'true-false', statements: ['Ο Παρθενώνας κτίστηκε τον 5ο αιώνα π.Χ.', 'Ο Παρθενώνας είναι κτισμένος σε ιωνικό ρυθμό', 'Αρχιτέκτονας του Παρθενώνα ήταν ο Φειδίας', 'Η ζωφόρος του Παρθενώνα απεικονίζει την πομπή των Παναθηναίων'], correctAnswers: ['Σ', 'Λ', 'Λ', 'Σ'] },
+            // --- Multiple Choice ---
+            { id: 14, type: 'multiple-choice', question: 'Ποια από τις παρακάτω πόλεις-κράτους της αρχαίας Ελλάδας θεωρείται ως η κοιτίδα της Δημοκρατίας;', options: ['η Θήβα', 'η Κόρινθος', 'η Αθήνα', 'η Σπάρτη'], correctAnswer: 'Γ' },
+            // --- Inline Choice ---
+            {
+                id: 15,
+                type: 'inline-choice',
+                question: 'Συμπληρώστε τη σωστή απάντηση στο κενό που υπάρχει σε κάθε πρόταση.',
+                imageUrl: 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ9QOTN1C1e6cT_bZNbP0U2p6I5g2O2fi0SiER3iDHgOXnRVVWM', // Placeholder for the image
+                sentence: 'Στις ανασκαφές των (1) __BLANK__ εντοπίσθηκε η χρυσή προσωπίδα της φωτογραφίας, η οποία πιστεύεται ότι απεικονίζει τον (2) __BLANK__ και βρέθηκε μέσα σε (3) __BLANK__ και βρίσκεται σήμερα στο Αρχαιολογικό Μουσείο των (4) __BLANK__.',
+                choices: {
+                    '1': ['Μυκηνών', 'Δελφών'],
+                    '2': ['Όμηρο', 'Αγαμέμνονα'],
+                    '3': ['παλάτι', 'τάφο'],
+                    '4': ['Δελφών', 'Αθηνών']
+                },
+                correctAnswers: {
+                    '1': 'Μυκηνών',
+                    '2': 'Αγαμέμνονα',
+                    '3': 'τάφο',
+                    '4': 'Αθηνών'
+                }
+            },
+            // --- Image Matching (FIXED) ---
+            {
+                id: 16,
+                type: 'image-matching',
+                question: 'Να αναγνωρίσετε τα μνημεία που απεικονίζονται στις φωτογραφίες, σημειώνοντας τον αριθμό του μνημείου και δίπλα το γράμμα από την εικόνα που ταιριάζει.',
+                col1: [
+                    'Οι στύλοι του Ολυμπίου Διός στην Αθήνα',
+                    'Η Θόλος των Δελφών',
+                    'Η Πύλη των Λεόντων στις Μυκήνες',
+                    'Ο Ναός Ποσειδώνος στο Σούνιο'
+                ],
+                imageUrls: ['http://yuliyakelidi.com/wp-content/uploads/2021/03/%D0%A5%D1%80%D0%B0%D0%BC-%D0%9F%D0%BE%D1%81%D0%B9%D0%B5%D0%B4%D0%BE%D0%BD%D0%B0-%D0%BD%D0%B0-%D0%BC%D1%8B%D1%81%D0%B5-%D0%A1%D1%83%D0%BD%D0%B8%D0%BE%D0%BD.jpg', 'https://www.rua.gr/media/k2/items/src/431abdceba4f9b25b9ee630b02d53833.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Temple_of_Zeus.jpg/250px-Temple_of_Zeus.jpg', 'https://ermakvagus.com/Europe/Greece/Mycenae/New%20folder%20(2)/471941080_a47d733748[1].jpg'], // Placeholders for Img Α, Β, Γ, Δ
+                correctAnswer: { '1': 'Γ', '2': 'Β', '3': 'Δ', '4': 'Α' }
+            },
+            // --- Fill in the Blanks ---
+            { id: 17, type: 'fill-in-the-blanks', question: 'Συμπληρώστε τα κενά στις παρακάτω προτάσεις.', sentences: ['Το Μαντείο (1) ______ στους Δελφούς ήταν ένα από τα πιο φημισμένα της Αρχαιότητος.', 'Όμως το παλαιότερο Μαντείο ήταν (2) ______ στη Δωδώνη.', 'Σπουδαίο μαντείο για τους Έλληνες αποτέλεσε και αυτό (3) ______ στην Αίγυπτο.', 'στον Μεσοπόταμο Πρεβέζης ήταν (4) ______ όπου οι συγγενείς επικοινωνούσαν με τις ψυχές των νεκρών.'], correctAnswers: ['του Απόλλωνα', 'του Δία', 'του Άμμωνος Δία', 'το Νεκρομαντείο'], hint: 'Επιλογές: Α. του Δία, Β. του Απόλλωνα, Γ. το Νεκρομαντείο, Δ. του Άμμωνος Δία' },
+            // --- Image Choice ---
+            { id: 18, type: 'image-choice', question: 'Ποια από τις παρακάτω μορφές απεικονίζει τον βασιλέα της Μακεδονίας Αλέξανδρο τον Μέγα;', imageUrl: 'data:image/jpeg;base64,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', options: ['Εικ. Α', 'Εικ. Β', 'Εικ. Γ', 'Εικ. Δ'], correctAnswer: 'Β' },
+            // --- Matching ---
+            { id: 19, type: 'matching', question: 'Αντιστοιχίσετε τους όρους της στήλης Ι με τους όρους της στήλης ΙΙ.', col1: ['Ποσειδώνας', 'Ερμής', 'Άρης', 'Διόνυσος'], col2: ['δόρυ', 'αμπέλι', 'τρίαινα', 'φτερωτά σανδάλια'], correctAnswer: { '1': 'Γ', '2': 'Δ', '3': 'Α', '4': 'Β' } },
+            // --- True/False ---
+            { id: 20, type: 'true-false', statements: ['Ο Αριστοφάνης ήταν σπουδαίος αρχαίος ποιητής που έγραψε τραγωδίες', 'Ο Ευριπίδης έγραψε την τραγωδία: «Πέρσες»', 'Ο Σοφοκλής, ο Αισχύλος και ο Ευριπίδης αποτελούν τους σημαντικότερους αρχαίους τραγικούς ποιητές', 'Ο Όμηρος έγραψε τα δύο ποιητικά έπη: «Ιλιάδα» και «Οδύσσεια»'], correctAnswers: ['Λ', 'Λ', 'Σ', 'Σ'] },
+            // --- Multiple Choice ---
+            { id: 21, type: 'multiple-choice', question: 'Ποια κατασκευή χρησιμοποίησαν οι Έλληνες για να καταλάβουν την Τροία στη διάρκεια του Τρωικού Πολέμου;', options: ['Από μηχανής Θεός', 'Πολιορκητικός κριός', 'Υγρόν Πυρ', 'Δούρειος Ίππος'], correctAnswer: 'Δ' },
+            { id: 22, type: 'multiple-choice', question: 'Στους μουσικούς αγώνες της αρχαίας Ελλάδος περιλαμβάνονταν:', options: ['τραγούδι, αυλός και κιθάρα', 'βιολί, λύρα και λαούτο', 'αυλός, κιθάρα και σαντούρι', 'τρίγωνο, λύρα και κιθάρα'], correctAnswer: 'Α' },
+             // --- True/False ---
+            { id: 23, type: 'true-false', question: 'Τα γλυπτά του Παρθενώνα:', statements: ['Κλάπηκαν από τον Βρετανό Λόρδο Τόμας Έλγιν', 'Προέρχονται από τον Ναό του Δία στην Ολυμπία', 'Βρίσκονται σήμερα στο Βρετανικό Μουσείο στο Λονδίνο', 'Δεν είναι επισκέψιμα για το κοινό'], correctAnswers: ['Σ', 'Λ', 'Σ', 'Λ'] },
+            { id: 24, type: 'true-false', statements: ['Το κάστρο της Μονεμβασιάς είναι κλασικής περιόδου', 'Στον βυζαντινό ναό, οι εικόνες τοποθετούνταν στο τέμπλο', 'Ο ναός της Αγίας Σοφίας στην Κωνσταντινούπολη ανήκει στον αρχιτεκτονικό τύπο: «Βασιλική με τρούλλο»', 'Στο Άγιον Όρος σώζονται βυζαντινά παλάτια'], correctAnswers: ['Λ', 'Σ', 'Σ', 'Λ'] },
+            // --- Matching ---
+            { id: 25, type: 'matching', question: 'Αντιστοιχίσετε τους αρχαιολογικούς χώρους με τις περιοχές.', col1: ['Βεργίνα', 'Ολυμπία', 'Δελφοί', 'Κνωσός'], col2: ['Πελοπόννησος', 'Κρήτη', 'Μακεδονία', 'Στερεά Ελλάδα'], correctAnswer: { '1': 'Γ', '2': 'Α', '3': 'Δ', '4': 'Β' } },
+            // --- Image Choice ---
+            { id: 26, type: 'image-choice', question: 'Ποιο είναι το παρακάτω μνημείο;', imageUrl: 'https://tiepolo-galleria-palatina.thessalonikitophotels.com/data/Photos/OriginalPhoto/8210/821044/821044841/tiepolo-galleria-palatina-hotel-thessaloniki-photo-5.JPEG', options: ['Το μνημείο του Φιλοπάππου στην Αθήνα', 'Το Μπούρτζι στο Ναύπλιο', 'Ο Λευκός Πύργος στη Θεσσαλονίκη', 'Το Παλάτι των Ιπποτών στη Ρόδο'], correctAnswer: 'Γ' },
+            // --- Multiple Choice ---
+            { id: 27, type: 'multiple-choice', question: 'Εάν θέλατε να δείτε εικόνες του 14ου αιώνα ποιο μουσείο των Αθηνών θα επισκεπτόσασταν:', options: ['την Εθνική Πινακοθήκη', 'το Εθνικό Αρχαιολογικό Μουσείο', 'το Βυζαντινό και Χριστιανικό Μουσείο', 'το Νέο Μουσείο της Ακρόπολης'], correctAnswer: 'Γ' },
+            // --- Image Choice ---
+            { id: 28, type: 'image-choice', question: 'Αναγνωρίσετε ποια είναι η χρήση του ψηλού κτίσματος που βρίσκεται μπροστά από τον ναό:', imageUrl: 'https://koinotopia.gr/wp-content/uploads/2022/12/I.N.-%CE%91%CE%B3%CE%AF%CE%BF%CF%85-%CE%94%CE%B7%CE%BC%CE%B7%CF%84%CF%81%CE%AF%CE%BF%CF%85-%CE%A3%CE%B9%CE%AC%CF%84%CE%B9%CF%83%CF%84%CE%B1%CF%82-1.jpg', options: ['Πύργος', 'Κωδωνοστάσιο (Καμπαναριό)', 'Παρεκκλήσιο', 'Ιερό Βήμα'], correctAnswer: 'Β' },
+            // --- True/False ---
+            { id: 29, type: 'true-false', statements: ['Το κάστρο του Μυστρά αποτελεί ένα από τα πιο σημαντικά προϊστορικά κάστρα της Ελλάδας.', 'Στο ψηλότερο σημείο του Μυστρά σώζεται το παλάτι του Ιουστινιανού', 'Στον μητροπολιτικό ναό του Αγίου Δημητρίου στον Μυστρά στέφτηκε αυτοκράτορας στις 6 Ιανουαρίου 1449 ο Κωνσταντίνος ΙΑ\' Παλαιολόγος', 'Το κάστρο του Μυστρά ήταν η πρωτεύουσα του Δεσποτάτου του Μωρέως.'], correctAnswers: ['Λ', 'Λ', 'Σ', 'Σ'] },
+            // --- Multiple Choice ---
+            { id: 30, type: 'multiple-choice', question: 'Που σώζονται βυζαντινά παλάτια;', options: ['Στην Αθήνα', 'Στη Ρόδο', 'Στον Μυστρά', 'Στη Θεσσαλονίκη'], correctAnswer: 'Γ' },
+            // --- True/False with images ---
+            { id: 31, type: 'true-false-image', question: 'Ποια από τα εικονιζόμενα κτήρια παρακάτω είναι στο πνεύμα του Νεοκλασικισμού;', imageUrls: ['https://greekcitytimes.com/wp-content/uploads/2021/02/xaidari-se-politistiko-proorismo-metatrepetai-o-istorikos-purgos-palataki-1.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/%CE%91%CE%BA%CE%B1%CE%B4%CE%B7%CE%BC%CE%AF%CE%B1_%CE%91%CE%B8%CE%B7%CE%BD%CF%8E%CE%BD_5260.jpg/330px-%CE%91%CE%BA%CE%B1%CE%B4%CE%B7%CE%BC%CE%AF%CE%B1_%CE%91%CE%B8%CE%B7%CE%BD%CF%8E%CE%BD_5260.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Attica_06-13_Athens_30_University.jpg/960px-Attica_06-13_Athens_30_University.jpg', 'https://virus.com.gr/wp-content/uploads/2022/01/ofthalmiatreio-1-800x533-1.jpg'], statements: ['Εικ. 1', 'Εικ. 2', 'Εικ. 3', 'Εικ. 4'], correctAnswers: ['Λ', 'Σ', 'Σ', 'Λ'] },
+            // --- Image Choice ---
+            { id: 32, type: 'image-choice', question: 'Να αναγνωρίσετε τι βλέπετε στην παρακάτω εικόνα.', imageUrl: 'https://dougias.com/resources/grekisk-parad.jpg.opt924x693o0,0s924x693.jpg', options: ['Φιλαρμονική του Δήμου Αθηναίων', 'Άγημα του Ναυτικού', 'Προεδρική Φρουρά', 'Χορευτικό συγκρότημα παραδοσιακών χορών'], correctAnswer: 'Γ' },
+            // --- Image Matching (FIXED) ---
+            {
+                id: 33,
+                type: 'image-matching',
+                question: 'Να αναγνωρίσετε τα συγκεκριμένα γλυπτά στις φωτογραφίες, σημειώνοντας τον αριθμό του γλυπτού και δίπλα το γράμμα από την εικόνα που ταιριάζει.',
+                col1: [
+                    'Βάσος Φαληρέας, «Ο Κωστής Παλαμάς»',
+                    'Γιαννούλης Χαλεπάς, «Η Κοιμωμένη»',
+                    'Γιώργου Ζογγολόπουλου, «Ομπρέλες»',
+                    'Μιχάλη Τόμπρου, «Ο Ιωάννης Καποδίστριας»'
+                ],
+                imageUrls: ['https://argolikivivliothiki.gr/wp-content/uploads/2015/01/kapodistrias-naupl-03.jpg?w=768', 'https://dimosiografia.com/wp-content/uploads/2022/02/koimomeni.jpg', 'https://douridasliterature.com/palamas8.jpg', 'https://cit.gr/wp-content/uploads/2022/10/Zoggolopoulos_ombreles_1-800x500.jpg'], // Placeholders for Img Α, Β, Γ, Δ
+                correctAnswer: { '1': 'Γ', '2': 'Β', '3': 'Δ', '4': 'Α' }
+            },
+            // --- Image Choice ---
+            { id: 34, type: 'image-choice', question: 'Αναγνωρίστε ποιο δημόσιο κτίριο της Αθήνας είναι αυτό που βλέπετε στη φωτογραφία, το οποίο κτίστηκε από τον γνωστό αρχιτέκτονα Ερνέστο Τσίλλερ, το 1878-1879, ως κατοικία του Ερρίκου Σλήμαν, του ανασκαφέα της Αρχαίας Τροίας.', imageUrl: 'https://i-loveathens.gr/wp-content/uploads/2019/04/in__16868_5c52cc5794b16-300x200.jpg', options: ['Εθνική Βιβλιοθήκη της Ελλάδας', 'Βουλή των Ελλήνων', 'Νομισματικό Μουσείο', 'Άρειος Πάγος'], correctAnswer: 'Γ' },
+            // --- Fill in the Blanks ---
+            { 
+                id: 35, 
+                type: 'fill-in-the-blanks', 
+                question: 'Συμπληρώστε τα κενά στις παρακάτω προτάσεις.', 
+                sentences: [
+                    'Ο γνωστός Έλληνας μουσικοσυνθέτης (1) ______ μελοποίησε ποίηση του Γιάννη Ρίτσου.', 
+                    'Ο (2) ______ συνέθεσε τη μουσική στο τραγούδι: «Τα παιδιά του Πειραιά» που έγινε πολύ γνωστό με την ερμηνεία της Μελίνας Μερκούρη.', 
+                    'Η (3) ______ υπήρξε η πρώτη Ελληνίδα γυναίκα στιχουργός και η σημαντικότερη του ελληνικού λαϊκού τραγουδιού.', 
+                    'Η (4) ______ συνέθεσε τη μουσική για την κινηματογραφική ταινία: «Πολίτικη Κουζίνα».'
+                ], 
+                correctAnswers: ['Μίκης Θεοδωράκης', 'Μάνος Χατζηδάκις', 'Ευτυχία Παπαγιαννοπούλου', 'Ευανθία Ρεμπούτσικα'], 
+                hint: 'Επιλογές: Α. Μάνος Χατζηδάκις, Β. Ευανθία Ρεμπούτσικα, Γ. Ευτυχία Παπαγιαννοπούλου, Δ. Μίκης Θεοδωράκης' 
+            },
+            // --- Multiple Choice ---
+            { id: 36, type: 'multiple-choice', question: 'Ποιος μουσικοсυνθέτης συνέθεσε το τραγούδι: «Μαλαματένια λόγια»;', options: ['Σταύρος Ξαρχάκος', 'Βασίλης Τσιτσάνης', 'Μίκης Θεοδωράκης', 'Γιάννης Μαρκόπουλος'], correctAnswer: 'Δ' },
+            // --- True/False ---
+            { id: 37, type: 'true-false', question: 'Στις αρχές του 20ου αιώνα ιδρύθηκε η Ελληνική Εθνική Σχολή Μουσικής... η οποία στόχευε στη δημιουργία εθνικής μουσικής και στα πρώτα της βήματα βασίστηκε:', statements: ['στην παραδοσιακή ελληνική μουσική', 'στα δημοτικά τραγούδια', 'στη βυζαντινή υμνωδία', 'στην Οθωμανική μουσική'], correctAnswers: ['Σ', 'Σ', 'Σ', 'Λ'] },
+            { id: 38, type: 'true-false', statements: ['Η Γλυκερία είναι γνωστή μουσικοσυνθέτρια.', 'Η Μαρία Κάλλας υπήρξε κορυφαία, διεθνούς φήμης Ελληνίδα υψίφωνος.', 'Η Σωτηρία Μπέλλου θεωρείται μία από τις καλύτερες εκπροσώπους του ρεμπέτικου τραγουδιού.', 'Ο Διονύσης Σαββόπουλος είναι σημαντικός Έλληνας συνθέτης και τραγουδιστής.'], correctAnswers: ['Λ', 'Σ', 'Σ', 'Σ'] },
+            // --- Multiple Choice ---
+            { id: 39, type: 'multiple-choice', question: 'Ποιος μεγάλος Έλληνας μουσικοσυνθέτης μελοποίησε το «Άξιον Εστί» του Οδυσσέα Ελύτη;', options: ['Ο Θάνος Μικρούτσικος', 'Ο Γιώργος Ζαμπέτας', 'Ο Μίκης Θεοδωράκης', 'Ο Σταύρος Ξαρχάκος'], correctAnswer: 'Γ' },
+            // --- Matching ---
+            { id: 40, type: 'matching', col1: ['Στέλιος Καζαντζίδης', 'Σταύρος Κουγιουμτζής', 'Λευτέρης Παπαδόπουλος', 'Λεωνίδας Καβάκος'], col2: ['στιχουργός', 'συνθέτης', 'βιολιστής', 'τραγουδιστής'], correctAnswer: { '1': 'Δ', '2': 'Β', '3': 'Α', '4': 'Γ' } },
+            // --- True/False ---
+            { id: 41, type: 'true-false', statements: ['Δεν υπάρχει Μουσείο Βυζαντινού Πολιτισμού στην πόλη της Θεσσαλονίκης', 'Το Εθνικό Ιστορικό Μουσείο στεγάζεται στο κτίριο της Παλαιάς Βουλής στην Αθήνα', 'Στο Αρχαιολογικό Μουσείο Ηρακλείου Κρήτης οι επισκέπτες μπορούν να θαυμάσουν κυρίως τα αριστουργήματα του Μινωικού πολιτισμού', 'Από το 2018 η Εθνική Βιβλιοθήκη της Ελλάδος στεγάζεται στο Κέντρο Πολιτισμού Ίδρυμα Σταύρος Νιάρχος στην Αθήνα'], correctAnswers: ['Λ', 'Σ', 'Σ', 'Σ'] },
+            // --- Multiple Choice ---
+            { id: 42, type: 'multiple-choice', question: 'Ποιος Έλληνας στιχουργός έγραψε τους στίχους του γνωστού τραγουδιού «Χάρτινο το φεγγαράκι» σε μουσική Μάνου Χατζιδάκι;', options: ['Γιώργος Θεοφάνους', 'Άκης Πάνου', 'Θάνος Μικρούτσικος', 'Νίκος Γκάτσος'], correctAnswer: 'Δ' },
+            { id: 43, type: 'multiple-choice', question: 'Σε ποιο από τα παρακάτω είδη μουσικής διέπρεψε ο Μάρκος Βαμβακάρης;', options: ['Λαϊκό τραγούδι', 'Ρεμπέτικο τραγούδι', 'Έντεχνο τραγούδι', 'Δημοτικό τραγούδι'], correctAnswer: 'Β' },
+            // --- Matching ---
+            { id: 44, type: 'matching', question: 'Αντιστοιχίσετε την ταινία με την πρωταγωνίστρια.', col1: ['Κυριακάτικο ξύπνημα', 'Η Αλίκη στο Ναυτικό', 'Τζένη, Τζένη', 'Τα κόκκινα φανάρια'], col2: ['Αλίκη Βουγιουκλάκη', 'Δέσπω Διαμαντίδου', 'Έλλη Λαμπέτη', 'Τζένη Καρέζη'], correctAnswer: { '1': 'Γ', '2': 'Α', '3': 'Δ', '4': 'Β' } },
+             // --- Multiple Choice ---
+            { id: 45, type: 'multiple-choice', question: 'Σε ποια ταινία του Θόδωρου Αγγελόπουλου ο τίτλος αναφέρεται σε αρχαιοελληνικό ήρωα;', options: ['Ο Μελισσοκόμος', 'Δάφνις και Χλόη', 'Το Μετέωρο Βήμα του πελαργού', 'Ο Μεγαλέξανδρος'], correctAnswer: 'Δ' },
+            { id: 46, type: 'multiple-choice', question: 'Ποιος σκηνοθέτησε την ταινία «Κυνόδοντας» που υπήρξε το 2011 υποψήφια για Όσκαρ καλύτερης ξενόγλωσσης ταινίας;', options: ['Παντελής Βούλγαρης', 'Γιώργος Λάνθιμος', 'Κώστας Γαβράς', 'Θεόδωρος Αγγελόπουλος'], correctAnswer: 'Β' },
+            // --- Image Choice ---
+            { id: 47, type: 'image-choice', question: 'Ποια είναι η διάσημη Ελληνίδα ηθοποιός της φωτογραφίας, που πρωταγωνίστησε στην κινηματογραφική ταινία: «Στέλλα» του Μιχάλη Κακογιάννη;', imageUrl: 'https://www.filmy.gr/wp-content/uploads/2019/03/Stella-3-300x188.jpg', options: ['Έλλη Λαμπέτη', 'Μελίνα Μερκούρη', 'Μάρθα Καραγιάννη', 'Μάρω Κοντού'], correctAnswer: 'Β' },
+            // --- Multiple Choice ---
+            { id: 48, type: 'multiple-choice', question: 'Ποιος σκηνοθέτησε την κινηματογραφική ταινία: «Αλέξης Ζορμπάς» που ήταν υποψήφια για επτά βραβεία Όσκαρ;', options: ['Αλέκος Σακελλάριος', 'Θεόδωρος Αγγελόπουλος', 'Κώστας Γαβράς', 'Μιχάλης Κακογιάννης'], correctAnswer: 'Δ' },
+            { id: 49, type: 'multiple-choice', question: 'Ποιος Έλληνας συνθέτης κέρδισε βραβείο Όσκαρ για το τραγούδι «Τα παιδιά του Πειραιά» που ακούγεται στην κλασική κινηματογραφική ταινία «Ποτέ την Κυριακή»;', options: ['Μίκης Θεοδωράκης', 'Διονύσης Σαββόπουλος', 'Βαγγέλης Παπαθανασίου', 'Μάνος Χατζιδάκις'], correctAnswer: 'Δ' },
+            { id: 50, type: 'multiple-choice', question: 'Στην κλασική ταινία: «Κάλπικη Λίρα» πρωταγωνιστούσαν μεταξύ άλλων:', options: ['Μαρίκα Κοτοπούλη – Δημήτρης Χορν', 'Δημήτρης Χορн – Έλλη Λαμπέτη', 'Μίμης Φωτόπουλος – Τζένη Καρέζη', 'Γεωργία Βασιλειάδου – Ορέστης Μακρής'], correctAnswer: 'Β' },
+            { id: 51, type: 'multiple-choice', question: 'Ποια διεθνούς φήμης Ελληνίδα ηθοποιός έπαιξε στη διάσημη ταινία: «Τα κανόνια του Ναβαρόνε»;', options: ['Μελίνα Μερκούρη', 'Ειρήνη Παπά', 'Κατίνα Παξινού', 'Άννα Συνοδινού'], correctAnswer: 'Β' },
+            { id: 52, type: 'multiple-choice', question: 'Ποιοι Έλληνες ποιητές πήραν το Νόμπελ Λογοτεχνίας;', options: ['Κωστής Παλαμάς και Γιάννης Ρίτσος', 'Γιώργος Σεφέρης και Οδυσσέας Ελύτης', 'Ανδρέας Κάλβος και Κώστας Βάρναλης', 'Κώστας Καρυωτάκης και Κωνσταντίνος Καβάφης'], correctAnswer: 'Β' },
+            { id: 53, type: 'multiple-choice', question: 'Ποιος συνθέτης μελοποίησε τον «Ύμνον εις την Ελευθερίαν» του Διονύσιου Σολωμού, που αποτελεί τον εθνικό ύμνο της Ελλάδας;', options: ['Μανώλης Καλομοίρης', 'Νικόλαος Μάντζαρος', 'Νίκος Σκαλκώτας', 'Γεώργιος Λαμπελέτ'], correctAnswer: 'Β' },
+            // --- Matching ---
+            { id: 54, type: 'matching', question: 'Αντιστοιχίσετε τον συγγραφέα με το έργο του.', col1: ['Πηνελόπη Δέλτα', 'Μαρία Ιορδανίδου', 'Νίκος Καζαντζάκης', 'Αλέξανδρος Παπαδιαμάντης'], col2: ['Βίος και Πολιτεία του Αλέξη Ζορμπά', 'Η Φόνισσα', 'Τα μυστικά του βάλτου', 'Λωξάντρα'], correctAnswer: { '1': 'Γ', '2': 'Δ', '3': 'Α', '4': 'Β' } },
+            // --- Multiple Choice ---
+            { id: 55, type: 'multiple-choice', question: 'Ποιος από τους παρακάτω Έλληνες συγγραφείς ανήκει στον χώρο της παιδικής λογοτεχνίας;', options: ['Γιώργος Ιωάννου', 'Ισίδωρος Ζουργός', 'Αντώνης Σαμαράκης', 'Ευγένιος Τριβιζάς'], correctAnswer: 'Δ' },
+            // --- Fill in the Blanks ---
+            { 
+                id: 56, 
+                type: 'fill-in-the-blanks', 
+                question: 'Συμπληρώστε τα κενά στις παρακάτω προτάσεις.', 
+                sentences: [
+                    'Ένα από τα πιο γνωστά λογοτεχνικά έργα της συγγραφέως Άλκης Ζέη είναι (1) _____.', 
+                    'Ο συγγραφέας Τάσος Αθανασιάδης έγραψε το μυθιστόρημα (2) _____.', 
+                    'Ο συγγραφέας Αλέξανδρος Παπαδιαμάντης έγραψε το λογοτεχνικό έργο (3) _____.', 
+                    '(4) _____ είναι ένα από τα σπουδαιότερα μυθιστορήματα του λογοτέхνη Ηλία Βενέζη.'
+                ], 
+                correctAnswers: ['η Αρραβωνιαστικιά του Αχιλλέα', 'Οι Πανθέοι', 'Οι Έμποροι των Εθνών', 'Το νούμερο 31328'], 
+                hint: 'Επιλογές: Α. Οι Έμποροι των Εθνών, Β. Το νούμερο 31328, Γ. η Αρραβωνιαστικιά του Αχιλλέα, Δ. Οι Πανθέοι' 
+            },
+            // --- Multiple Choice ---
+            { id: 57, type: 'multiple-choice', question: 'Ο Σπύρος Λούης κέρδισε το πρώτο μετάλλιο των Ολυμπιακών Αγώνων (1896) στην Αθήνα στο αγώνισμα:', options: ['του δίσκου', 'του ακόντιου', 'της πάλης', 'του δρόμου'], correctAnswer: 'Δ' },
+            // --- True/False ---
+            { id: 58, type: 'true-false', statements: ['Στην Αθήνα βρίσκεται το βυζαντινό μνημείο – ναός της Παναγίας Καπνικαρέας.', 'Ο Ιάκωβος Καμπανέλλης είναι από τους σημαντικότερους νεοέλληνες θεατρικούς συγγραφείς.', 'Η Αλίκη Βουγιουκλάκη ερμήνευσε το τραγούδι: «Τα παιδιά του Πειραιά».', 'Η Μελίνα Μερκούρη πρωταγωνίστησε στη «Στέλλα» του Μιχάλη Κακογιάννη.'], correctAnswers: ['Σ', 'Σ', 'Λ', 'Σ'] },
+            // --- Multiple Choice ---
+            { id: 59, type: 'multiple-choice', question: 'Ο Παναγής Κουταλιανός (1847-1916) ... απέκτησε μεγάλη φήμη Έλληνα αθλητή:', options: ['στην άρση βαρών', 'στο άλμα', 'στην πάλη', 'στον δίσκο'], correctAnswer: 'Γ' },
+            // --- Matching ---
+            { id: 60, type: 'matching', question: 'Αντιστοιχίσετε το γεγονός με τη χρονολογία.', col1: ['Η Αθήνα ανέλαβε τη διοργάνωση των Ολυμπιακών Αγώνων', 'Πραγματοποιήθηκε η αναβίωση των πρώτων Ολυμπιακών Αγώνων', 'Η Ελλάδα κατέστη πρωταθλήτρια στους Πανευρωπαϊκούς αγώνες καλαθοсφαίρισης (Ευρωμπάσκετ)', 'Ξεκίνησε στην Αθήνα ο διεθνής αγώνας αυτοκινήτου «Ράλλυ Ακρόπολις»'], col2: ['1953', '1987', '1896', '2004'], correctAnswer: { '1': 'Δ', '2': 'Γ', '3': 'Β', '4': 'Α' } },
+            // --- Fill in the Blanks ---
+            { 
+                id: 61, 
+                type: 'fill-in-the-blanks', 
+                question: 'Συμπληρώστε τα κενά στις παρακάτω προτάσεις.', 
+                sentences: [
+                    'Πολλές αθλητικές ομάδες στην Ελλάδα ιδρύθηκαν ... σε μεγάλα λιμάνια, όπως η (1) _____ στην Πάτρα και ο (2) _____ στον Πειραιά,', 
+                    'ενώ άλλες μετά την έλευση των Μικρασιατών προσφύγων του 1922, όπως η (3) _____ στη Νέα Φιλαδέλφεια και ο (4) _____ στη Θεσσαλονίκη.'
+                ], 
+                correctAnswers: ['ΠΑΝΑΧΑΪΚΗ', 'ΟΛΥΜΠΙΑΚΟΣ', 'ΑΕΚ', 'ΠΑΟΚ'], 
+                hint: 'Επιλογές: Α. ΑΕΚ, Β. ΠΑΝΑΧΑΪΚΗ, Γ. ΟΛΥΜΠΙΑΚΟΣ, Δ. ΠΑΟΚ, Ε. ΠΑΝΑΘΗΝΑΪΚΟΣ' 
+            },
+            // --- Matching ---
+            { id: 62, type: 'matching', question: 'Αντιστοιχίσετε τον καλλιτέхνη με το έργο του.', col1: ['Αλέκος Φασιανός', 'Γιάννης Μώραλης', 'Γιάννης Τσαρούχης', 'Νίκος Εγγονόπουλος'], col2: ['Ναύτης', 'Αϊ Γιώργης', 'Ποδηλάτης', 'Ερωτικό'], correctAnswer: { '1': 'Γ', '2': 'Δ', '3': 'Α', '4': 'Β' } },
+            // --- Multiple Choice ---
+            { id: 63, type: 'multiple-choice', question: 'Ο Επιτάφιος, που συμβολίζει τον τάφο του Χριστού, περιφέρεται της συνοικίες πόλεων και χωριών κατά τη Μεγάλη Παρασκευή:', options: ['του Πάσχα', 'των Χριστουγέννων', 'της Πρωτομαγιάς', 'του Δεκαπενταύγουστου'], correctAnswer: 'Α' },
+            { id: 64, type: 'multiple-choice', question: 'Την παραμονή της Πρωτοχρονιάς συνηθίζουμε να κόβουμε:', options: ['τη Βασιλόπιττα', 'τη Φανουρόπιτα', 'το Χριστόψωμο', 'Τσουρέκια'], correctAnswer: 'Α' },
+            // --- True/False ---
+            { id: 65, type: 'true-false', statements: ['Ο Λευκός Πύργος στη Θεσσαλονίκη είναι έργο βυζαντινών αυτοκρατόρων', 'Η «Κοιμωμένη» είναι γλυπτό του γνωστού Έλληνα Γιώργου Ζογγολόπουλου', 'Η Ευανθία Ρεμπούτσικα συνέθεσε τη μουσική για την κινηματογραφική ταινία «Πολίτικη Κουζίνα»', 'Η Σωτηρία Μπέλλου είναι μία από τις πιο γνωστές εκπροσώπους του ρεμπέτικου τραγουδιού'], correctAnswers: ['Λ', 'Λ', 'Σ', 'Σ'] },
+            // --- Multiple Choice ---
+            { id: 66, type: 'multiple-choice', question: 'Ένα από τα πιο χαρακτηριστικά έθιμα είναι να εκδράμουν οι οικογένειες στην εξοχή και τα παιδιά να πετούν χαρταετούς:', options: ['τη Μεγάλη Παρασκευή', 'την Καθαρά Δευτέρα', 'την Πρωτοχρονιά', 'τη Δευτέρα του Πάσχα'], correctAnswer: 'Β' },
+            { id: 67, type: 'multiple-choice', question: 'Αποκορύφωση της Μεγάλης Εβδομάδος του Πάσχα είναι να συγκεντρώνονται οι πιστοί της ναούς, να λαμβάνουν σε λαμπάδες το άγιο Φως και να ακολουθούν πυροτεχνήματα κατά τη νύχτα:', options: ['της Μεγάλης Παρασκευής', 'του Μεγάλου Σαββάτου', 'της Κυριακής του Πάσχα', 'των Θεοφανίων'], correctAnswer: 'Β' },
+            { id: 68, type: 'multiple-choice', question: 'Τι είναι η μαγειρίτσα;', options: ['Μαγειρευτό φαγητό που τρώγεται την πρώτη μέρα του νέου έτους', 'Το εθνικό φαγητό των Ελλήνων', 'Παραδοσιακή σούπα με κρέας, που τρώγεται το βράδυ του Μεγάλου Σαββάτου', 'Παραδοσιακή, ηπειρώτικη πίττα με κρέας'], correctAnswer: 'Γ' },
+            // --- Matching ---
+            { id: 69, type: 'matching', question: 'Σημειώστε τον αριθμό του εθίμου και δίπλα αν σχετίζεται: Α. με το Πάσχα ή Β. με την Πρωτοχρονιά/τα Φώτα;', col1: ['βάψιμο κόκκινων αβγών', 'ρίξιμο σταυρού στη θάλασσα', 'περιφορά επιταφίου', 'σπάσιμο ροδιού'], col2: ['με το Πάσχα', 'με την Πρωτοχρονιά/τα Φώτα'], correctAnswer: { '1': 'Α', '2': 'Β', '3': 'Α', '4': 'Β' } },
+            // --- True/False ---
+            { id: 70, type: 'true-false', statements: ['Σαράντα ημέρες μετά τον θάνατο τελείται μνημόσυνο και φτιάχνουμε κόλλυβα', 'Οι Καλικάντζαροι, σύμφωνα με την παράδοση, είναι τα καλά πνεύματα των Χριστουγέννων που φέρνουν καλοτυχία', 'Όταν ξεκινάει η καινούρια σχολική χρονιά τελούμε αγιασμό', 'Όταν κάποιος αρρωσταίνει φτιάχνουμε Φανουρόπιτα για να γίνει καλά'], correctAnswers: ['Σ', 'Λ', 'Σ', 'Λ'] }
+        ];
+
+
+        const container = document.getElementById('topics-container');
+
+        const renderQuestion = (q, index) => {
+            const topicElement = document.createElement('div');
+            topicElement.className = 'flex items-start bg-gray-50 p-4 rounded-lg';
+            topicElement.id = `question-block-${q.id}`;
+
+            let contentHTML = '';
+            let confirmButton = `<div class="mt-4 text-right flex justify-end gap-4"><button id="retry_btn_${q.id}" onclick="retryQuestion(${q.id})" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors hidden">ΑΛΛΗ ΜΙΑ ΠΡΟΣΠΑΘΕΙΑ</button><button id="btn_${q.id}" onclick="checkAnswer(${q.id})" class="bg-[#283593] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#1a237e] transition-colors">ΕΠΙΒΕΒΑΙΩΣΗ</button></div>`;
+            
+            let questionText = q.question || '';
+
+            switch (q.type) {
+                case 'multiple-choice':
+                case 'image-choice':
+                    let optionsHTML = '<div class="space-y-3 mt-4">';
+                    const optionChars = ['Α', 'Β', 'Γ', 'Δ'];
+                    q.options.forEach((option, index) => {
+                        const char = optionChars[index];
+                        optionsHTML += `
+                            <div>
+                                <input type="radio" name="question_${q.id}" id="q${q.id}_opt${char}" value="${char}">
+                                <label for="q${q.id}_opt${char}" class="option-label">
+                                    <span class="option-char">${char}</span>
+                                    <span class="text-gray-700">${option}</span>
+                                </label>
+                            </div>`;
+                    });
+                    optionsHTML += '</div>';
+                    
+                    const imageHTML = q.type === 'image-choice' ? `<img src="${q.imageUrl}" alt="Питання ${q.id}" class="rounded-lg mb-4 w-full h-auto max-w-md mx-auto bg-gray-200">` : '';
+
+                    contentHTML = `
+                        <p class="font-semibold">${questionText}</p>
+                        ${imageHTML}
+                        ${optionsHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+
+                case 'multiple-image-choice':
+                    let multiImgOptionsHTML = '<div class="space-y-3 mt-4">';
+                    const multiImgOptionChars = ['Α', 'Β', 'Γ', 'Δ'];
+                    q.options.forEach((option, idx) => {
+                        const char = multiImgOptionChars[idx];
+                        multiImgOptionsHTML += `
+                            <div class="flex flex-col items-center">
+                                <img src="${q.imageUrls[idx]}" alt="${option}" class="rounded-lg mb-2 h-48 w-auto bg-gray-200">
+                                <div>
+                                    <input type="checkbox" name="question_${q.id}" id="q${q.id}_opt${char}" value="${char}">
+                                    <label for="q${q.id}_opt${char}" class="option-label">
+                                        <span class="option-char">${char}</span>
+                                        <span class="text-gray-700">${option}</span>
+                                    </label>
+                                </div>
+                            </div>`;
+                    });
+                    multiImgOptionsHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${multiImgOptionsHTML}</div></div>`;
+
+                    contentHTML = `
+                        <p class="font-semibold">${questionText}</p>
+                        ${multiImgOptionsHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+
+                case 'matching':
+                    let matchingHTML = '<div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-start">';
+                    matchingHTML += '<div>';
+                    q.col1.forEach((item, index) => {
+                        matchingHTML += `<div class="flex items-center mb-2 min-h-10"><span class="font-bold mr-2">${index + 1}.</span><span>${item}</span></div>`;
+                    });
+                    matchingHTML += '</div>';
+
+                    matchingHTML += '<div>';
+                    const col2Chars = ['Α', 'Β', 'Γ', 'Δ', 'Ε'];
+                     q.col1.forEach((item, index) => {
+                        matchingHTML += `<div class="flex items-center mb-2 min-h-10"><span class="font-bold mr-2">${index + 1}.</span><select id="q${q.id}_match${index + 1}" class="border-2 rounded p-1 w-full">`;
+                        matchingHTML += '<option value="">--</option>';
+                        q.col2.forEach((opt, optIndex) => {
+                             matchingHTML += `<option value="${col2Chars[optIndex]}">${col2Chars[optIndex]}</option>`;
+                        });
+                        matchingHTML += `</select></div>`;
+                    });
+                    matchingHTML += '</div>';
+                    matchingHTML += '</div>';
+                    
+                    let col2List = '<div class="mt-4 p-3 bg-gray-100 rounded-lg">';
+                    q.col2.forEach((item, index) => {
+                        col2List += `<div><span class="font-bold">${col2Chars[index]}.</span> ${item}</div>`;
+                    });
+                    col2List += '</div>';
+
+                    contentHTML = `
+                        <p class="font-semibold">${questionText}</p>
+                        ${matchingHTML}
+                        ${col2List}
+                        ${confirmButton}
+                    `;
+                    break;
+                
+                case 'image-matching':
+                    let imgMatchingHTML = '<div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-8">';
+                    // Column 1: Descriptions and Selects
+                    let descriptionsHTML = '<div>';
+                    const imgMatchChars = ['Α', 'Β', 'Γ', 'Δ'];
+                    q.col1.forEach((item, index) => {
+                        descriptionsHTML += `<div class="flex items-center mb-2 h-12"><span class="font-bold mr-2">${index + 1}.</span><span class="flex-1">${item}</span><select id="q${q.id}_match${index + 1}" class="border-2 rounded p-1 ml-2">`;
+                        descriptionsHTML += '<option value="">--</option>';
+                        imgMatchChars.forEach(char => {
+                            descriptionsHTML += `<option value="${char}">${char}</option>`;
+                        });
+                        descriptionsHTML += `</select></div>`;
+                    });
+                    descriptionsHTML += '</div>';
+
+                    // Column 2: Images
+                    let imagesHTML = '<div class="grid grid-cols-2 gap-4">';
+                    q.imageUrls.forEach((url, index) => {
+                        imagesHTML += `
+                            <div class="text-center">
+                                <img src="${url}" alt="Εικόνα ${imgMatchChars[index]}" class="rounded-lg mb-2 w-full h-auto bg-gray-200">
+                                <p class="font-bold">Εικ. ${imgMatchChars[index]}</p>
+                            </div>
+                        `;
+                    });
+                    imagesHTML += '</div>';
+
+                    imgMatchingHTML += descriptionsHTML + imagesHTML + '</div>';
+
+                    contentHTML = `
+                        <p class="font-semibold">${questionText}</p>
+                        ${imgMatchingHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+
+                case 'fill-in-the-blanks':
+                    let fillHTML = '<div class="space-y-4 mt-4">';
+                    let blankCounter = 1;
+                    q.sentences.forEach((sentence) => {
+                        let replacedSentence = sentence;
+                        // Replace all instances of the blank placeholder in the sentence
+                        while (replacedSentence.includes('_____')) {
+                            const inputField = `<input type="text" id="q${q.id}_blank${blankCounter}" class="border-2 rounded p-1 mx-1" style="width: 150px;">`;
+                            replacedSentence = replacedSentence.replace(/(\(\d+\)) _____/, (match, p1) => {
+                                const currentNum = parseInt(p1.match(/\d+/)[0]);
+                                if (currentNum === blankCounter) {
+                                    return `(${blankCounter}) ${inputField}`;
+                                }
+                                return match; // Should not happen if numbers are sequential
+                            });
+                             // This regex replacement ensures we replace one blank at a time
+                            replacedSentence = replacedSentence.replace('_____', inputField);
+                            blankCounter++;
+                        }
+                         // Re-add numbers if they were stripped
+                        let finalSentence = sentence;
+                        let fieldIndex = 1;
+                        finalSentence = finalSentence.replace(/_____/g, () => {
+                             const inputField = `<input type="text" id="q${q.id}_blank${fieldIndex}" class="border-2 rounded p-1 mx-1" style="width: 150px;">`;
+                             fieldIndex++;
+                             return inputField;
+                        });
+
+
+                        fillHTML += `<div>${finalSentence.replace(/\((\d+)\)/g, '<span class="font-bold">($1)</span>')}</div>`;
+                    });
+                    fillHTML += '</div>';
+                    
+                    let hintHTML = '<div class="mt-4 text-sm text-gray-600 italic">';
+                    if (q.hint) {
+                        hintHTML += `<p>${q.hint}</p>`;
+                    }
+                    hintHTML += `<p>Απάντηση μπορείτε να συμπληρώσετε με μικρά γράμματα με τόνους ή με κεφαλαία γράμματα χωρίς τόνους.</p></div>`;
+                    const fillImage = q.imageUrl ? `<img src="${q.imageUrl}" alt="Питання ${q.id}" class="rounded-lg my-4 w-full h-auto max-w-md mx-auto bg-gray-200">` : '';
+
+                    contentHTML = `
+                        <p class="font-semibold">${questionText}</p>
+                        ${fillImage}
+                        ${fillHTML}
+                        ${hintHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+
+                case 'inline-choice':
+                    let inlineChoiceHTML = '<div class="space-y-4 mt-4">';
+                    let sentence = q.sentence; 
+                    const choiceKeys = Object.keys(q.choices);
+
+                    choiceKeys.forEach((key) => {
+                        let selectHTML = `<select id="q${q.id}_choice${key}" class="border-2 rounded p-1 mx-1">`;
+                        selectHTML += '<option value="">--</option>';
+                        q.choices[key].forEach(option => {
+                            selectHTML += `<option value="${option}">${option}</option>`;
+                        });
+                        selectHTML += '</select>';
+                        sentence = sentence.replace(`(${key}) __BLANK__`, `(${key}) ${selectHTML}`);
+                    });
+
+                    inlineChoiceHTML += `<div>${sentence}</div>`;
+                    inlineChoiceHTML += '</div>';
+
+                    const inlineImage = q.imageUrl ? `<img src="${q.imageUrl}" alt="Питання ${q.id}" class="rounded-lg my-4 w-full h-auto max-w-md mx-auto bg-gray-200">` : '';
+
+                    contentHTML = `
+                        <p class="font-semibold">${questionText}</p>
+                        ${inlineImage}
+                        ${inlineChoiceHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+                
+                 case 'true-false':
+                 case 'true-false-image':
+                    let tfHTML = '<div class="space-y-4 mt-4">';
+                    q.statements.forEach((statement, index) => {
+                        const imageForStatement = (q.type === 'true-false-image' && q.imageUrls && q.imageUrls[index]) ?
+                            `<img src="${q.imageUrls[index]}" alt="${statement}" class="rounded-lg mb-2 h-48 w-auto bg-gray-200 mx-auto">` : '';
+
+                        tfHTML += `
+                            <div id="q${q.id}_stmt_cont${index + 1}" class="bg-gray-100 p-3 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <p class="flex-1 mr-4"><span class="font-bold">${index + 1}.</span> ${statement}</p>
+                                    <div class="flex gap-2">
+                                        <input type="radio" name="q${q.id}_stmt${index + 1}" id="q${q.id}_stmt${index + 1}_s" value="Σ">
+                                        <label for="q${q.id}_stmt${index + 1}_s" class="option-label px-4 py-2">Σ</label>
+                                        <input type="radio" name="q${q.id}_stmt${index + 1}" id="q${q.id}_stmt${index + 1}_l" value="Λ">
+                                        <label for="q${q.id}_stmt${index + 1}_l" class="option-label px-4 py-2">Λ</label>
+                                    </div>
+                                </div>
+                                ${imageForStatement}
+                            </div>
+                        `;
+                    });
+                    tfHTML += '</div>';
+                     contentHTML = `
+                        <p class="font-semibold">${questionText || 'Σημειώνοντας Σ, αν η πρόταση που σας δίνεται παρακάτω είναι σωστή, ή Λ, αν είναι λάθος.'}</p>
+                        ${tfHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+            }
+
+            topicElement.innerHTML = `
+                <div class="w-24 flex-shrink-0 pr-4 text-center">
+                    <span class="block-title font-bold text-lg text-[#283593]">ΘΕΜΑ ${q.id}</span>
+                </div>
+                <div class="flex-1 text-gray-800">
+                    ${contentHTML}
+                </div>
+            `;
+            container.appendChild(topicElement);
+        };
+
+        if (container) {
+            allQuestions.forEach((q, index) => renderQuestion(q, index));
+        }
+
+        function normalizeGreek(str) {
+            if (typeof str !== 'string') return '';
+            return str
+                .normalize('NFD') 
+                .replace(/[\u0300-\u036f]/g, '') 
+                .toUpperCase(); 
+        }
+
+        function checkAnswer(questionId) {
+            const questionData = allQuestions.find(q => q.id === questionId);
+            if (!questionData) return;
+            let isCorrect = true;
+
+            const questionBlock = document.getElementById(`question-block-${questionId}`);
+            const allInputsInBlock = questionBlock.querySelectorAll('input, select');
+
+            switch (questionData.type) {
+                case 'multiple-choice':
+                case 'image-choice':
+                    const selectedRadio = questionBlock.querySelector(`input[name="question_${questionData.id}"]:checked`);
+                    if (!selectedRadio || selectedRadio.value !== questionData.correctAnswer) {
+                        isCorrect = false;
+                    }
+                    if (isCorrect) {
+                        selectedRadio.nextElementSibling.classList.add('correct-answer');
+                    } else if (selectedRadio) {
+                        selectedRadio.nextElementSibling.classList.add('incorrect-answer');
+                    } else {
+                        isCorrect = false;
+                    }
+                    break;
+
+                case 'multiple-image-choice':
+                    const selectedCheckboxes = questionBlock.querySelectorAll(`input[name="question_${questionData.id}"]:checked`);
+                    const selectedValues = Array.from(selectedCheckboxes).map(cb => cb.value);
+                    isCorrect = selectedValues.length === questionData.correctAnswers.length &&
+                                selectedValues.every(val => questionData.correctAnswers.includes(val));
+
+                    questionBlock.querySelectorAll(`input[name="question_${questionData.id}"]`).forEach(checkbox => {
+                        const label = checkbox.nextElementSibling;
+                        if (questionData.correctAnswers.includes(checkbox.value)) {
+                           if (isCorrect) label.classList.add('correct-answer');
+                        } else if (checkbox.checked) {
+                           label.classList.add('incorrect-answer');
+                        }
+                    });
+                    break;
+                
+                case 'matching':
+                case 'image-matching':
+                    const selects = questionBlock.querySelectorAll(`select`);
+                    selects.forEach((select, index) => {
+                         const correctVal = questionData.correctAnswer[index + 1];
+                         if (select.value === correctVal) {
+                             select.classList.add('correct-answer');
+                             select.classList.remove('incorrect-answer');
+                         } else {
+                             isCorrect = false;
+                             select.classList.add('incorrect-answer');
+                             select.classList.remove('correct-answer');
+                         }
+                    });
+                    break;
+                
+                case 'fill-in-the-blanks':
+                    const textInputs = questionBlock.querySelectorAll(`input[type="text"]`);
+                    textInputs.forEach((input, index) => {
+                        const normalizedUserInput = normalizeGreek(input.value.trim());
+                        const normalizedCorrectAnswer = normalizeGreek(questionData.correctAnswers[index].trim());
+                        if (normalizedUserInput === normalizedCorrectAnswer) {
+                            input.classList.add('correct-answer');
+                            input.classList.remove('incorrect-answer');
+                        } else {
+                           isCorrect = false;
+                           input.classList.add('incorrect-answer');
+                           input.classList.remove('correct-answer');
+                        }
+                    });
+                    break;
+                
+                case 'inline-choice':
+                    const choiceSelects = questionBlock.querySelectorAll(`select`);
+                    choiceSelects.forEach((select) => {
+                        const key = select.id.replace(`q${questionData.id}_choice`, '');
+                        const correctVal = questionData.correctAnswers[key];
+                        if (select.value === correctVal) {
+                            select.classList.add('correct-answer');
+                            select.classList.remove('incorrect-answer');
+                        } else {
+                            isCorrect = false;
+                            select.classList.add('incorrect-answer');
+                            select.classList.remove('correct-answer');
+                        }
+                    });
+                    break;
+
+                case 'true-false':
+                case 'true-false-image':
+                     questionData.statements.forEach((_, index) => {
+                        const selected = questionBlock.querySelector(`input[name="q${questionData.id}_stmt${index + 1}"]:checked`);
+                        const container = document.getElementById(`q${questionData.id}_stmt_cont${index + 1}`);
+                        if (selected && selected.value === questionData.correctAnswers[index]) {
+                            container.classList.add('correct-answer');
+                            container.classList.remove('incorrect-answer');
+                        } else {
+                           isCorrect = false;
+                           container.classList.add('incorrect-answer');
+                           container.classList.remove('correct-answer');
+                        }
+                    });
+                    break;
+            }
+            
+            const confirmButton = document.getElementById(`btn_${questionId}`);
+            const retryButton = document.getElementById(`retry_btn_${questionId}`);
+
+            if (isCorrect) {
+                allInputsInBlock.forEach(input => input.disabled = true);
+                confirmButton.disabled = true;
+                confirmButton.classList.add('opacity-50', 'cursor-not-allowed');
+                retryButton.classList.add('hidden');
+            } else {
+                confirmButton.classList.add('hidden');
+                retryButton.classList.remove('hidden');
+            }
+        }
+
+        function retryQuestion(questionId) {
+            const questionBlock = document.getElementById(`question-block-${questionId}`);
+            if (!questionBlock) return;
+
+            const allInputs = questionBlock.querySelectorAll('input, select');
+            allInputs.forEach(input => {
+                input.disabled = false;
+                if(input.type === 'radio' || input.type === 'checkbox') {
+                    input.checked = false;
+                } else if (input.tagName.toLowerCase() === 'select') {
+                    input.selectedIndex = 0;
+                } else {
+                    input.value = '';
+                }
+            });
+
+            const coloredElements = questionBlock.querySelectorAll('.correct-answer, .incorrect-answer');
+            coloredElements.forEach(el => {
+                el.classList.remove('correct-answer', 'incorrect-answer');
+            });
+
+            const confirmButton = document.getElementById(`btn_${questionId}`);
+            if (confirmButton) {
+                confirmButton.classList.remove('hidden');
+            }
+            const retryButton = document.getElementById(`retry_btn_${questionId}`);
+            if (retryButton) {
+                retryButton.classList.add('hidden');
+            }
+        }
+    </script>
+
+</body>
+</html>
