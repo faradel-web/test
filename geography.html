@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ΓΕΩΓΡΑΦΙΑ - VASH CENTER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #edf2f7;
+        }
+        .block-title {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .option-label:hover {
+            background-color: #f7fafc;
+            border-color: #cbd5e0;
+        }
+        input[type="radio"]:checked + .option-label {
+            background-color: #ebf8ff;
+            border-color: #4299e1;
+        }
+        input[type="radio"] {
+            display: none;
+        }
+        .option-char {
+            width: 2rem;
+            height: 2rem;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #2d3748;
+            background-color: #e2e8f0;
+            border-radius: 9999px;
+            margin-right: 0.75rem;
+        }
+        input[type="radio"]:checked + .option-label .option-char {
+             background-color: #4299e1;
+             color: white;
+        }
+        /* Стилі для перевірки відповідей */
+        .correct-answer {
+            background-color: #c6f6d5 !important;
+            border-color: #38a169 !important;
+        }
+        .incorrect-answer {
+            background-color: #fed7d7 !important;
+            border-color: #e53e3e !important;
+        }
+        .correct-answer .option-char {
+            background-color: #38a169 !important;
+            color: white !important;
+        }
+        .incorrect-answer .option-char {
+            background-color: #e53e3e !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="min-h-screen p-6">
+        
+        <header class="w-full max-w-5xl mx-auto mb-8">
+            <div class="text-center mb-4">
+                <img src="https://placehold.co/225x225/3c4a8f/fdd835?text=LOGO" alt="Логотип VASH CENTER" class="h-12 w-12 rounded-full object-cover mx-auto">
+                <h1 class="text-lg font-extrabold text-[#1a237e] tracking-wide mt-2">VASH CENTER</h1>
+            </div>
+            
+            <div class="flex items-center justify-between py-4">
+                <div class="w-1/3 text-left">
+                    <a href="1.html" class="text-lg text-[#283593] hover:text-[#1a237e] font-semibold transition-colors">
+                        ← Πίσω στα θέματα
+                    </a>
+                </div>
+                <div class="w-1/3 text-center">
+                    <h2 class="text-4xl text-gray-800 font-bold uppercase">ΓΕΩΓΡΑΦΙΑ</h2>
+                </div>
+                <div class="w-1/3"></div>
+            </div>
+        </header>
+
+        <main class="w-full max-w-5xl mx-auto">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div id="topics-container" class="space-y-8">
+                    <!-- Питання генеруються тут -->
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        const allQuestions = [
+            { id: 1, type: 'multiple-choice', question: 'Πόσες είναι οι Περιφερειακές Ενότητες της Ελλάδας;', options: ['45', '40', '51', '74'], correctAnswer: 'Δ' },
+            { id: 2, type: 'multiple-choice', question: 'Πόσος είναι ο πληθυσμός της Ελλάδας (σύμφωνα με την τελευταία απογραφή του 2021);', options: ['8 εκατομμύρια περίπου', '7 εκατομμύρια περίπου', '15 εκατομμύρια περίπου', '10 εκατομμύρια περίπου'], correctAnswer: 'Δ' },
+            { id: 3, type: 'multiple-choice', question: 'Ποια είναι η έκταση της Ελλάδας;', options: ['120.000 τετραγωνικά χιλιόμετρα περίπου', '100.000 τετραγωνικά χιλιόμετρα περίπου', '90.000 τετραγωνικά χιλιόμετρα περίπου', '132.000 τετραγωνικά χιλιόμετρα περίπου'], correctAnswer: 'Δ' },
+            { id: 4, type: 'multiple-choice', question: 'Η Ερμούπολη είναι πρωτεύουσα:', options: ['της Νάξου', 'της Σύρου', 'της Περιφερειακής Ενότητας Λακωνίας', 'της Περιφερειακής Ενότητας Αχαΐας'], correctAnswer: 'Β' },
+            { id: 5, type: 'fill-from-options', sentences: ['Η Μαγνησία είναι (1) ______ (2) ______ Ελλάδας που σχηματίζει έναν κυκλικό (3) ______.','Η Χαλκιδική βρίσκεται στη Βόρεια Ελλάδα και αποτελείται από (4) ______.'], options: ['κόλπο', 'χερσόνησος', 'τρεις χερσονήσους', 'της Κεντρικής'], correctAnswers: { '1': 'χερσόνησος', '2': 'της Κεντρικής', '3': 'κόλπο', '4': 'τρεις χερσονήσους' } },
+            { id: 6, type: 'open-answer', question: 'Γράψτε τέσσερις (4) από τις (13) Διοικητικές Περιφέρειες της Ελλάδας.', required: 4, correctAnswers: ['Ανατολικής Μακεδονίας και Θράκης', 'Αττικής', 'Βορείου Αιγαίου', 'Δυτικής Ελλάδας', 'Δυτικής Μακεδονίας', 'Ηπείρου', 'Θεσσαλίας', 'Ιονίων Νήσων', 'Κεντρικής Μακεδονίας', 'Κρήτης', 'Νοτίου Αιγαίου', 'Πελοποννήσου', 'Στερεάς Ελλάδας'] },
+            { id: 7, type: 'true-false', statements: ['Στους υγρότοπους της Ελλάδας μεταναστεύουν χιλιάδες πουλιά', 'Στην Κρήτη ζει ένα είδος αγριόγιδου με την ονομασία Κρι-κρι', 'Ο «Αρκτούρος» είναι καταφύγιο αρκούδας στο Νυμφαίο', 'Στο θαλάσσιο πάρκο της Αλοννήσου αναπαράγεται η χελώνα καρέτα καρέτα (caretta caretta)'], correctAnswers: ['Σ', 'Σ', 'Σ', 'Λ'] },
+            { id: 8, type: 'open-answer', question: 'Γράψτε τέσσερα (4) νησιά του Ιονίου Πελάγους.', required: 4, correctAnswers: ['Κεφαλονιά', 'Κέρκυρα', 'Ζάκυνθος', 'Λευκάδα', 'Κύθηρα', 'Ιθάκη', 'Παξοί'] },
+            { id: 9, type: 'fill-from-options', sentences: ['Η Στυλίδα είναι πόλη (1) ______ Ελλάδας που βρίσκεται (2) ______ κόλπο.', 'Το Αιτωλικό είναι πόλη βόρεια (3) ______ και βρέχεται (4) ______.'], options: ['της Κεντρικής', 'του Μεσολογγίου', 'πανταχόθεν', 'στον Μαλιακό'], correctAnswers: { '1': 'της Κεντρικής', '2': 'στον Μαλιακό', '3': 'του Μεσολογγίου', '4': 'πανταχόθεν' } },
+            { id: 10, type: 'open-answer', question: 'Γράψτε τα πελάγη από τα οποία βρέχεται η Κρήτη.', required: 2, correctAnswers: ['Κρητικό', 'Λιβυκό'] },
+            { id: 11, type: 'open-answer', question: 'Γράψτε το όνομα τεσσάρων (4) νησιών που ανήκουν στις Κυκλάδες.', required: 4, correctAnswers: ['Νάξος', 'Άνδρος', 'Πάρος', 'Τήνος', 'Μήλος', 'Κέα', 'Αμοργός', 'Ίος', 'Κύθνος', 'Μύκονος', 'Σύρος', 'Σαντορίνη', 'Θήρα', 'Σέριφος', 'Σίφνος', 'Σίκινος', 'Ανάφη', 'Κίμωλος', 'Αντίπαρος', 'Φολέγανδρος', 'Μακρόνησος', 'Πολύαιγος', 'Ηρακλειά', 'Γυάρος', 'Κέρος', 'Ρήνεια', 'Δονούσα', 'Θηρασία', 'Σχοινούσα', 'Αντίμηλος', 'Δεσποτικό', 'Άνω Κουφονήσι', 'Κάτω Κουφονήσι', 'Δήλος'] },
+            { id: 12, type: 'open-answer', question: 'Γράψτε τέσσερις (4) Περιφερειακές Ενότητες του γεωγραφικού διαμερίσματος της Πελοποννήσου που βρέχονται από θάλασσα.', required: 4, correctAnswers: ['Αχαΐας', 'Ηλείας', 'Μεσσηνίας', 'Λακωνίας', 'Αρκαδίας', 'Αργολίδας', 'Κορινθίας'] },
+            { id: 13, type: 'open-answer', question: 'Γράψτε τέσσερις (4) Περιφερειακές Ενότητες της Ελλάδας που δεν βρέχονται από θάλασσα.', required: 4, correctAnswers: ['Δράμας', 'Ημαθίας', 'Κοζάνης', 'Καστοριάς', 'Φλώρινας', 'Πέλλας', 'Ευρυτανίας', 'Κιλκίς', 'Γρεβενών', 'Τρικάλων', 'Ιωαννίνων', 'Καρδίτσας', 'Βόρειου Τομέα Αθήνας', 'Δυτικού Τομέα Αθήνας', 'Κεντρικού Τομέα Αθήνας'] },
+            { id: 14, type: 'open-answer', question: 'Γράψτε τέσσερις (4) λίμνες της Ελλάδας που βρίσκονται στη Μακεδονία.', required: 4, correctAnswers: ['Μικρή Πρέσπα', 'Μεγάλη Πρέσπα', 'Βόλβη', 'Βεγορίτιδα', 'Δοϊράνη', 'Ορεστιάδα', 'Κορώνεια', 'Κερκίνη'] },
+            { id: 15, type: 'fill-from-options', sentences: ['Α. Η Αχαΐα ανήκει στο γεωγραφικό διαμέρισμα (1) ______.','Β. Τα Ιωάννινα ανήκουν στο γεωγραφικό διαμέρισμα (2) ______.','Γ. Η Καβάλα ανήκει στο γεωγραφικό διαμέρισμα (3) ______.','Δ. Η Σάμος ανήκει στο γεωγραφικό διαμέρισμα (4) ______.'], options: ['της Θράκης', 'της Μακεδονίας', 'της Ηπείρου', 'της Πελοποννήσου', 'των νησιών του Αιγαίου πελάγους'], correctAnswers: { '1': 'της Πελοποννήσου', '2': 'της Ηπείρου', '3': 'της Μακεδονίας', '4': 'των νησιών του Αιγαίου πελάγους' } },
+            { id: 16, type: 'fill-from-options', sentences: ['Α. Η Πάτρα είναι πρωτεύουσα της Περιφερειακής Ενότητας (1) ______.','Β. Η Θεσσαλονίκη είναι πρωτεύουσα της Περιφερειακής Ενότητας (2) ______.','Γ. Το Καρπενήσι είναι πρωτεύουσα της Περιφερειακής Ενότητας (3) ______.','Δ. Η Καλαμάτα είναι πρωτεύουσα της Περιφερειακής Ενότητας (4) ______.'], options: ['Ευρυτανίας', 'Μεσσηνίας', 'Θεσσαλονίκης', 'Αχαΐας'], correctAnswers: { '1': 'Αχαΐας', '2': 'Θεσσαλονίκης', '3': 'Ευρυτανίας', '4': 'Μεσσηνίας' } },
+            { id: 17, type: 'fill-from-options', sentences: ['Α. Η Περιφερειακή Ενότητα Έβρου έχει πρωτεύουσα την (1) ______.','Β. Η Περιφερειακή Ενότητα Ροδόπης έχει πρωτεύουσα την (2) ______.','Γ. Η Περιφερειακή Ενότητα Πέλλας έχει πρωτεύουσα την (3) ______.','Δ. Η Περιφερειακή Ενότητα Ημαθίας έχει πρωτεύουσα την (4) ______.'], options: ['Αλεξανδρούπολη', 'Βέροια', 'Έδεσσα', 'Κομοτηνή'], correctAnswers: { '1': 'Αλεξανδρούπολη', '2': 'Κομοτηνή', '3': 'Έδεσσα', '4': 'Βέροια' } },
+            { id: 18, type: 'fill-from-options', sentences: ['Α. Η Περιφερειακή Ενότητα Εύβοιας έχει πρωτεύουσα (1) ______.','Β. Η Περιφερειακή Ενότητα Αργολίδας έχει πρωτεύουσα (2) ______.','Γ. Η Πεриφερειακή Ενότητα Λακωνίας έχει πρωτεύουσα (3) ______.','Δ. Η Περιφερειακή Ενότητα Χαλκιδικής έχει πρωτεύουσα (4) ______.'], options: ['τη Σπάρτη', 'τον Πολύγυρο', 'τη Χαλκίδα', 'το Ναύπλιο'], correctAnswers: { '1': 'τη Χαλκίδα', '2': 'το Ναύπλιο', '3': 'τη Σπάρτη', '4': 'τον Πολύγυρο' } },
+            { id: 19, type: 'fill-from-options', sentences: ['Α. Το Λουτράκι βρίσκεται στην Περιφερειακή Ενότητα (1) ______.','Β. Το Αίγιο βρίσκεται στην Περιφερειακή Ενότητα (2) ______.','Γ. Το Αγρίνιο βρίσκεται στην Περιφερειακή Ενότητα (3) ______.','Δ. Η Πάργα βρίσκεται στην Περιφερειακή Ενότητα (4) ______.'], options: ['Αχαΐας', 'Κορινθίας', 'Πρέβεζας', 'Αιτωλοακαρνανίας'], correctAnswers: { '1': 'Κορινθίας', '2': 'Αχαΐας', '3': 'Αιτωλοακαρνανίας', '4': 'Πρέβεζας' } },
+            { id: 20, type: 'fill-from-options', sentences: ['Α. Η λίμνη Τριχωνίδα βρίσκεται στην Περιφερειακή Ενότητα (1) ______.','Β. Η λίμνη Βόλβη βρίσκεται στην Περιφερειακή Εнότητα (2) ______.','Γ. Η λίμνη Υλίκη βρίσκεται στην Περιφερειακή Ενότητα (3) ______.','Δ. Η λίμνη Δοϊράνη βρίσκεται στην Περιφερειακή Ενότητα (4) ______.'], options: ['Βοιωτίας', 'Κιλκίς', 'Θεσσαλονίκης', 'Αιτωλοακαρνανίας'], correctAnswers: { '1': 'Αιτωλοακαρνανίας', '2': 'Θεσσαλονίκης', '3': 'Βοιωτίας', '4': 'Κιλκίς' } },
+            { id: 21, type: 'fill-from-options', sentences: ['Α. Η δεύτερη μεγαλύτερη πόλη της Ελλάδας είναι (1) ______.','Β. Το υψηλότερο βουνό της Κρήτης είναι (2) ______.','Γ. Το μεγαλύτερο (σε μήκος) ποτάμι εντός της Ελλάδας είναι (3) ______.','Δ. Η μεγαλύτερη λίμνη της Ελλάδας είναι (4) ______.'], options: ['η Θεσσαλονίκη', 'ο Αλιάκμονας', 'ο Ψηλορείτης (Ίδη)', 'η Τριχωνίδα'], correctAnswers: { '1': 'η Θεσσαλονίκη', '2': 'ο Ψηλορείτης (Ίδη)', '3': 'ο Αλιάκμονας', '4': 'η Τριχωνίδα' } },
+            { id: 22, type: 'open-answer', question: 'Γράψτε στο τετράδιό σας τα τέσσερα άκρα σημεία της Ελλάδας.', required: 4, correctAnswers: ['Οθωνοί', 'Φανοί', 'Ορμένιο', 'Καστελλόριζο', 'Μεγίστη', 'Γαύδος'] },
+            { id: 23, type: 'open-answer', question: 'Γράψτε τέσσερις (4) περιοχές της Ελλάδας, όπου παράγεται κρασί.', required: 4, correctAnswers: ['Αμύνταιο', 'Νάουσα', 'Δράμα', 'Σάμος', 'Σαντορίνη', 'Θήρα', 'Νεμέα', 'Κρήτη', 'Κεφαλλονιά'] },
+            { id: 24, type: 'open-answer', question: 'Γράψτε τις τέσσερις Περιφερειακές Ενότητες της Κρήτης.', required: 4, correctAnswers: ['Ηρακλείου', 'Λασιθίου', 'Ρεθύμνου', 'Χανίων'] },
+            { id: 25, type: 'open-answer', question: 'Γράψτε τις τέσσερις Περιφερειακές Ενότητες της Ηπείρου.', required: 4, correctAnswers: ['Ιωαννίνων', 'Θεσπρωτίας', 'Άρτας', 'Πρέβεζας'] },
+            { id: 26, type: 'open-answer', question: 'Γράψτε τις Περιφερειακές Ενότητες του γεωγραφικού διαμερίσματος της Θράκης και το κοντινότερο νησί που βρίσκεται στα νότιά της.', required: 4, correctAnswers: ['Ξάνθης', 'Ροδόπης', 'Έβρου', 'Σαμοθράκη'] },
+            { id: 27, type: 'fill-from-options', sentences: ['Α. Η Ρόδος: συνορεύει με (1) ______.','Β. Η Ορεστιάδα: συνορεύει με (2) ______.','Γ. Η Ειδομένη: συνορεύει με (3) ______.','Δ. Η Κόνιτσα: συνορεύει με (4) ______.'], options: ['την Τουρκία', 'την Τουρκία', 'τη Δημοκρατία της Βόρειας Μακεδονίας', 'την Αλβανία'], correctAnswers: { '1': 'την Τουρκία', '2': 'την Τουρκία', '3': 'τη Δημοκρατία της Βόρειας Μακεδονίας', '4': 'την Αλβανία' } },
+            { id: 28, type: 'true-false', statements: ['Στην Κάλυμνο αλιεύονται σφουγγάρια', 'Στην Πιερία ευδοκιμούν τα ακτινίδια', 'Ο Παγασητικός κόλπος φημίζεται για τις μυδοκαλλιέργειες', 'Στην Κρήτη παράγονται μπανάνες'], correctAnswers: ['Σ', 'Σ', 'Λ', 'Σ'] },
+            { id: 29, type: 'true-false', statements: ['Ο πορθμός του Ευρίπου βρίσκεται στη Χαλκίδα', 'Η Περιφερειακή Ενότητα Ροδόπης έχει πρωτεύουσα την Κομοτηνή', 'Η Περιφερειακή Ενότητα Βοιωτίας έχει πρωτεύουσα τη Θήβα', 'Το κλίμα της Ελλάδας είναι εύκρατο μεσογειακό'], correctAnswers: ['Σ', 'Σ', 'Λ', 'Σ'] },
+            { id: 30, type: 'true-false', statements: ['Το Ορμένιο είναι το βορειότερο τμήμα της Περιφερειακής Ενότητας Έβρου, το ακρότατο σημείο της χώρας στον Βορρά, στα ελληνοβουλγαρικά σύνορα', 'Η Γαύδος είναι το ανατολικότερο νησί της Ελλάδας', 'Το νησιωτικό σύμπλεγμα του Καστελλόριζου ή αλλιώς της Μεγίστης βρίσκεται στο ανατολικότερο σημείο της Ελλάδας', 'Οι Οθωνοί ή αλλιώς Φανοί, το μικρό νησάκι της Περιφερειακής Ενότητας Κέρκυρας, είναι το δυτικότερο σημείο της Ελλάδας'], correctAnswers: ['Σ', 'Λ', 'Σ', 'Σ'] },
+            { id: 31, type: 'true-false', statements: ['Η Περιφερειακή Ενότητα Σποράδων ανήκει στην Περιφέρεια Κεντρικής Μακεδονίας', 'Η Σκύρος ανήκει διοικητικά στην Περιφέρεια Στερεάς Ελλάδας', 'Στο Θαλάσσιο Πάρκο Αλοννήσου βρίσκεται το καταφύγιο της μεσογειακής φώκιας (monachus monachus)', 'Στη Σκύρο ζει μία από τις πιο σπάνιες φυλές αλόγων στον κόσμο'], correctAnswers: ['Λ', 'Σ', 'Σ', 'Σ'] },
+            { id: 32, type: 'true-false', statements: ['Η Ελλάδα στα νότια σύνορά της βρέχεται από το Λιβυκό Πέλαγος', 'Η Ελλάδα βρίσκεται στη νοτιοδυτική Ευρώπη', 'Στα δυτικά σύνορά της η Ελλάδα βρέхεται από το Ιόνιο Πέλαγος', 'Η Ελλάδα είναι ένα κράτος της Νοτιοανατολικής Ευρώπης'], correctAnswers: ['Σ', 'Λ', 'Σ', 'Σ'] },
+            { id: 33, type: 'true-false', statements: ['Στο Αιγαίο Πέλαγος βρίσκονται οι Κυκλάδες και τα Δωδεκάνησα', 'Στο Ιόνιο Πέλαγος βρίσκεται η Ύδρα', 'Στις Βόρειες Σποράδες ανήκει η Σκιάθος', 'Τα Ψαρά βρίσκονται στο Αιγαίο Πέλαγος'], correctAnswers: ['Σ', 'Λ', 'Σ', 'Σ'] },
+            { id: 34, type: 'true-false', statements: ['Η λίμνη Τριχωνίδα βρίσκεται στην Περιφερειακή Ενότητα Αιτωλοακαρνανίας', 'Η λίμνη Βιστωνίδα βρίσκεται στη Θράκη', 'Η λίμνη Κορώνεια βρίσκεται στην Πελοπόννησο', 'Η λίμνη Πετρών βρίσκεται στη Μακεδονία'], correctAnswers: ['Σ', 'Σ', 'Λ', 'Σ'] },
+            { id: 35, type: 'true-false', statements: ['Η Σκόπελος ανήκει στις Κυκλάδες', 'Η Αμοργός ανήκει στα Ιόνια νησιά', 'Η Αστυπάλαια ανήκει στα Δωδεκάνησα', 'Η Λήμνος ανήκει στα νησιά του Βορείου Αιγαίου'], correctAnswers: ['Λ', 'Λ', 'Σ', 'Σ'] },
+            { id: 36, type: 'true-false', statements: ['Ο ποταμός Αλιάκμονας εκβάλλει στον Θερμαϊκό Κόλπο', 'Ο ποταμός Αχελώος εκβάλλει στο Ιόνιο Πέλαγος', 'Ο ποταμός Πηνειός (της Θεσσαλίας) εκβάλλει στον Θερμαϊκό Κόλπο', 'Ο ποταμός Αξιός εκβάλλει στο Ιόνιο Πέλαγος'], correctAnswers: ['Σ', 'Σ', 'Σ', 'Λ'] },
+            { id: 37, type: 'true-false', statements: ['Η Κάσος βρίσκεται στο Αιγαίο Πέλαγος', 'Η Αστυπάλαια βρίσκεται στο Αιγαίο Πέλαγος', 'Η Ιθάκη βρίσκεται στο Ιόνιο Πέλαγος', 'Οι Παξοί βρίσκονται στο Ιόνιο Πέλαγος'], correctAnswers: ['Σ', 'Σ', 'Σ', 'Σ'] },
+            { id: 38, type: 'true-false', statements: ['Η Ξάνθη διαθέτει σιδηροδρομική σύνδεση', 'Η Λάρισα διαθέτει ακτοπλοϊκή σύνδεση', 'Τα Κύθηρα έχουν αεροδρόμιο', 'Από την Ηγουμενίτσα ταξιδεύουν πλοία προς το εξωτερικό'], correctAnswers: ['Σ', 'Λ', 'Σ', 'Σ'] },
+            { id: 39, type: 'true-false', statements: ['Η Ναύπακτος βρίσκεται στην Περιφερειακή Ενότητα Αιτωλοακαρνανίας', 'Το Γαλαξίδι βρίσκεται στην Περιφερειακή Ενότητα Φωκίδας', 'Η Αταλάντη βρίσκεται στην Περιφερειακή Ενότητα Φθιώτιδας', 'Η Αμφιλοχία βρίσκεται στην Περιφερειακή Ενότητα Άρτας'], correctAnswers: ['Σ', 'Σ', 'Σ', 'Λ'] },
+            { id: 40, type: 'true-false', statements: ['Η Τρίπολη είναι πρωτεύουσα της Περιφερειακής Ενότητας Αρκαδίας', 'Το Άργος είναι πρωτεύουσα της Περιφερειακής Ενότητας Αργολίδας', 'Το Γύθειο είναι πρωτεύουσα της Περιφερειακής Ενότητας Λακωνίας', 'Τα Καλάβρυτα βρίσκονται στην Περιφερειακή Ενότητα Αχαΐας'], correctAnswers: ['Σ', 'Λ', 'Λ', 'Σ'] },
+            { id: 41, type: 'true-false', statements: ['Η Θάσος βρίσκεται στην Περιφερειακή Ενότητα Καβάλας', 'Το Αμύνταιο βρίσκεται στην Περιφερειακή Ενότητα Φλώρινας', 'Το Μέτσοβο βρίσκεται στην Περιφερειακή Ενότητα Θεσπρωτίας', 'Η Αράχοβα βρίσκεται στην Περιφερειακή Ενότητα Φωκίδας'], correctAnswers: ['Λ', 'Σ', 'Λ', 'Λ'] },
+            { id: 42, type: 'true-false', statements: ['Το Γύθειο βρίσκεται στην Περιφερειακή Ενότητα Μεσσηνίας', 'Η Βόνιτσα βρίσκεται στην Περιφερειακή Ενότητα Πρέβεζας', 'Η Νιγρίτα βρίσκεται στην Περιφερειακή Ενότητα Δράμας', 'Η Ορεστιάδα βρίσκεται στην Περιφερειακή Ενότητα Έβρου'], correctAnswers: ['Λ', 'Λ', 'Λ', 'Σ'] },
+            { id: 43, type: 'true-false', statements: ['Στην Ελλάδα υπάρχουν εγκαταστάσεις παραγωγής ηλεκτρικής ενέργειας από λιγνίτη στην Πτολεμαΐδα.', 'Στο υπέδαφος της Μεγαλόπολης και του Αλιβερίου υπάρχουν κοιτάσματα λιγνίτη.', 'Το μεγαλύτερο μέρος της ηλεκτρικής ενέργειας που καταναλώνουμε παράγεται από τα κοιτάσματα λιγνίτη.', 'Οι μεγαλύτερες βιομηχανικές μονάδες της Ελλάδας βρίσκονται στην Πελοπόννησο.'], correctAnswers: ['Σ', 'Σ', 'Λ', 'Λ'] },
+            { id: 44, type: 'matching', col1: ['Κερκίνη', 'Αλιάκμονας', 'Τριχωνίδα', 'Πηνειός', 'Έβρος', 'Βιστωνίδα', 'Κορώνεια', 'Αχελώος'], col2: ['Ποταμοί', 'Λίμνες'], correctAnswers: {'Κερκίνη': 'Λίμνες', 'Αλιάκμονας': 'Ποταμοί', 'Τριχωνίδα': 'Λίμνες', 'Πηνειός': 'Ποταμοί', 'Έβρος': 'Ποταμοί', 'Βιστωνίδα': 'Λίμνες', 'Κορώνεια': 'Λίμνες', 'Αχελώος': 'Ποταμοί'} },
+            { id: 45, type: 'matching', col1: ['Στερεά Ελλάδα - Εύβοια', 'Πελοπόννησος', 'Κρήτη', 'Νησιά Αιγαίου'], col2: ['Λασιθίου', 'Λέσβου', 'Βοιωτίας', 'Αρκαδίας'], correctAnswers: { '1': 'Γ', '2': 'Δ', '3': 'Α', '4': 'Β' } },
+            { id: 46, type: 'matching', col1: ['Αλεξανδρούπολη', 'Πύργος', 'Σίφνος', 'Ύδρα', 'Γρεβενά', 'Σκόπελος', 'Καρδίτσα', 'Σύρος'], col2: ['Ηπειρωτική Ελλάδα', 'Νησιωτική Ελλάδα'], correctAnswers: {'Αλεξανδρούπολη': 'Ηπειρωτική Ελλάδα', 'Πύργος': 'Ηπειρωτική Ελλάδα', 'Σίφνος': 'Νησιωτική Ελλάδα', 'Ύδρα': 'Νησιωτική Ελλάδα', 'Γρεβενά': 'Ηπειρωτική Ελλάδα', 'Σκόπελος': 'Νησιωτική Ελλάδα', 'Καρδίτσα': 'Ηπειρωτική Ελλάδα', 'Σύρος': 'Νησιωτική Ελλάδα'} },
+            { id: 47, type: 'matching', col1: ['Σπάρτη', 'Θεσσαλονίκη', 'Ιωάννινα', 'Σητεία', 'Κοζάνη', 'Λήμνος', 'Ζάκυνθος', 'Ρέθυμνο'], col2: ['Ηπειρωτική Ελλάδα', 'Νησιωτική Ελλάδα'], correctAnswers: {'Σπάρτη': 'Ηπειρωτική Ελλάδα', 'Θεσσαλονίκη': 'Ηπειρωτική Ελλάδα', 'Ιωάννινα': 'Ηπειρωτική Ελλάδα', 'Σητεία': 'Νησιωτική Ελλάδα', 'Κοζάνη': 'Ηπειρωτική Ελλάδα', 'Λήμνος': 'Νησιωτική Ελλάδα', 'Ζάκυνθος': 'Νησιωτική Ελλάδα', 'Ρέθυμно': 'Νησιωτική Ελλάδα'} },
+            { id: 48, type: 'open-answer', question: 'Σημειώστε δύο (2) περιοχές της Ελλάδας που παράγουν πευκόμελο.', required: 2, correctAnswers: ['Εύβοια', 'Θάσος', 'Χαλκιδική', 'Σποράδες', 'Ρόδος'] },
+            { id: 49, type: 'open-answer', question: 'Γράψτε δύο (2) από τις Περιφερειακές Ενότητες της Ελλάδας, όπου καλλιεργούνται οι μεγαλύτερες εκτάσεις σιτηρών.', required: 2, correctAnswers: ['Λάρισας', 'Θεσσαλονίκης', 'Κιλκίс', 'Σερρών', 'Κοζάνης'] },
+            { id: 50, type: 'open-answer', question: 'Γράψτε δύο (2) από τους κόλπους της Ελλάδας με τις μεγαλύτερες ποσότητες αλιευμάτων.', required: 2, correctAnswers: ['Θερμαϊκός', 'Κασσάνδρας', 'Αγίου Όρους', 'Ιερισσού', 'Στρυμονικός', 'Καβάλας', 'Βόρειος Ευβοϊκός', 'Νότιος Ευβοϊκός'] },
+        ];
+
+        const container = document.getElementById('topics-container');
+
+        const renderQuestion = (q) => {
+            const topicElement = document.createElement('div');
+            topicElement.className = 'flex items-start bg-gray-50 p-4 rounded-lg';
+            topicElement.id = `question-block-${q.id}`;
+
+            let contentHTML = '';
+            let confirmButton = `<div class="mt-4 text-right flex justify-end gap-4"><button id="retry_btn_${q.id}" onclick="retryQuestion(${q.id})" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors hidden">ΑΛΛΗ ΜΙΑ ΠΡΟΣΠΑΘΕΙΑ</button><button id="btn_${q.id}" onclick="checkAnswer(${q.id})" class="bg-[#283593] text-white font-bold py-2 px-6 rounded-lg hover:bg-[#1a237e] transition-colors">ΕΠΙΒΕΒΑΙΩΣΗ</button></div>`;
+
+            switch (q.type) {
+                case 'multiple-choice':
+                    let optionsHTML = '<div class="space-y-3 mt-4">';
+                    const optionChars = ['Α', 'Β', 'Γ', 'Δ'];
+                    q.options.forEach((option, index) => {
+                        const char = optionChars[index];
+                        optionsHTML += `
+                            <div>
+                                <input type="radio" name="question_${q.id}" id="q${q.id}_opt${char}" value="${char}">
+                                <label for="q${q.id}_opt${char}" class="option-label">
+                                    <span class="option-char">${char}</span>
+                                    <span class="text-gray-700">${option}</span>
+                                </label>
+                            </div>`;
+                    });
+                    optionsHTML += '</div>';
+                    contentHTML = `
+                        <p class="font-semibold">${q.question}</p>
+                        ${optionsHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+
+                case 'matching':
+                    let matchingHTML = '<div class="mt-4 space-y-2">';
+                    q.col1.forEach((item, index) => {
+                        matchingHTML += `<div class="flex items-center gap-4"><div class="w-1/2">${index + 1}. ${item}</div><div class="w-1/2"><select id="q${q.id}_match${index + 1}" class="border-2 rounded p-1 w-full">`;
+                        matchingHTML += '<option value="">--</option>';
+                        q.col2.forEach((cat) => {
+                             matchingHTML += `<option value="${cat}">${cat}</option>`;
+                        });
+                        matchingHTML += `</select></div></div>`;
+                    });
+                    matchingHTML += '</div>';
+                    
+                    contentHTML = `
+                        <p class="font-semibold">${q.question || 'Αντιστοιχίσετε τις παρακάτω έννοιες:'}</p>
+                        ${matchingHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+                
+                case 'fill-from-options':
+                    let fillOptionsHTML = '<div class="space-y-4 mt-4">';
+                    q.sentences.forEach((sentence) => {
+                        let finalSentence = sentence;
+                        const matches = finalSentence.match(/\(\d\)/g) || [];
+                        matches.forEach(match => {
+                            const num = match.replace(/[\(\)]/g, '');
+                            let selectField = `<select id="q${q.id}_blank${num}" class="border-2 rounded p-1 mx-1"><option value="">---</option>`;
+                            q.options.forEach(opt => {
+                                selectField += `<option value="${opt}">${opt}</option>`;
+                            });
+                            selectField += `</select>`;
+                            finalSentence = finalSentence.replace(`(${num}) ______`, `(${num}) ${selectField}`);
+                        });
+                        fillOptionsHTML += `<div>${finalSentence}</div>`;
+                    });
+                    fillOptionsHTML += '</div>';
+
+                    contentHTML = `
+                        <p class="font-semibold">Συμπληρώστε τη σωστή απάντηση στο κενό που υπάρχει σε κάθε πρόταση, επιλέγοντας από τις παρακάτω:</p>
+                        <div class="mt-2 text-sm text-gray-600 italic">${q.options.join(', ')}</div>
+                        ${fillOptionsHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+                
+                case 'true-false':
+                    let tfHTML = '<div class="space-y-4 mt-4">';
+                    q.statements.forEach((statement, index) => {
+                        tfHTML += `
+                            <div id="q${q.id}_stmt_cont${index + 1}" class="flex justify-between items-center bg-gray-100 p-3 rounded-lg">
+                                <p class="flex-1 mr-4"><span class="font-bold">${index + 1}.</span> ${statement}</p>
+                                <div class="flex gap-2">
+                                    <input type="radio" name="q${q.id}_stmt${index + 1}" id="q${q.id}_stmt${index + 1}_s" value="Σ">
+                                    <label for="q${q.id}_stmt${index + 1}_s" class="option-label px-4 py-2">Σ</label>
+                                    <input type="radio" name="q${q.id}_stmt${index + 1}" id="q${q.id}_stmt${index + 1}_l" value="Λ">
+                                    <label for="q${q.id}_stmt${index + 1}_l" class="option-label px-4 py-2">Λ</label>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    tfHTML += '</div>';
+                     contentHTML = `
+                        <p class="font-semibold">Σημειώνοντας Σ, αν η πρόταση που σας δίνεται παρακάτω είναι σωστή, ή Λ, αν είναι λάθος.</p>
+                        ${tfHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+
+                case 'open-answer':
+                    let openAnswerHTML = '<div class="space-y-3 mt-4">';
+                    for (let i = 1; i <= q.required; i++) {
+                        openAnswerHTML += `<div><input type="text" id="q${q.id}_open_${i}" class="w-full p-2 border-2 rounded-lg" placeholder="Απάντηση ${i}..."></div>`;
+                    }
+                    openAnswerHTML += '</div>';
+
+                    contentHTML = `
+                        <p class="font-semibold">${q.question}</p>
+                        ${openAnswerHTML}
+                        ${confirmButton}
+                    `;
+                    break;
+            }
+
+            topicElement.innerHTML = `
+                <div class="w-24 flex-shrink-0 pr-4 text-center">
+                    <span class="block-title font-bold text-lg text-[#283593]">ΘΕΜΑ ${q.id}</span>
+                </div>
+                <div class="flex-1 text-gray-800">
+                    ${contentHTML}
+                </div>
+            `;
+            container.appendChild(topicElement);
+        };
+
+        if (container) {
+            allQuestions.forEach(q => renderQuestion(q));
+        }
+
+        function normalizeGreek(str) {
+            if (typeof str !== 'string') return '';
+            return str
+                .normalize('NFD') 
+                .replace(/[\u0300-\u036f]/g, '') 
+                .toUpperCase();
+        }
+
+        function checkAnswer(questionId) {
+            const questionData = allQuestions.find(q => q.id === questionId);
+            if (!questionData) return;
+            let isCorrect = true;
+
+            const questionBlock = document.getElementById(`question-block-${questionId}`);
+            const allInputsInBlock = questionBlock.querySelectorAll('input, select, textarea');
+
+            switch (questionData.type) {
+                case 'multiple-choice':
+                    const selectedRadio = questionBlock.querySelector(`input[name="question_${questionData.id}"]:checked`);
+                    if (!selectedRadio || selectedRadio.value !== questionData.correctAnswer) {
+                        isCorrect = false;
+                    }
+                    if (isCorrect) {
+                        selectedRadio.nextElementSibling.classList.add('correct-answer');
+                        allInputsInBlock.forEach(input => input.disabled = true);
+                    } else if (selectedRadio) {
+                        selectedRadio.nextElementSibling.classList.add('incorrect-answer');
+                    }
+                    break;
+                
+                case 'matching':
+                    const selects = questionBlock.querySelectorAll(`select`);
+                    selects.forEach((select, index) => {
+                        const itemText = questionData.col1[index];
+                        if (select.value !== questionData.correctAnswers[itemText]) {
+                           isCorrect = false;
+                        }
+                    });
+                    if (isCorrect) {
+                         selects.forEach(s => s.classList.add('correct-answer'));
+                         allInputsInBlock.forEach(input => input.disabled = true);
+                    }
+                    break;
+                
+                case 'fill-from-options':
+                    const fillSelects = questionBlock.querySelectorAll(`select`);
+                    fillSelects.forEach((select) => {
+                        const idParts = select.id.split('blank');
+                        const blankNumber = idParts[1];
+                        const correct = questionData.correctAnswers[blankNumber];
+                        if (select.value !== correct) {
+                           isCorrect = false;
+                        }
+                    });
+                     if (isCorrect) {
+                         fillSelects.forEach(s => s.classList.add('correct-answer'));
+                         allInputsInBlock.forEach(input => input.disabled = true);
+                    }
+                    break;
+
+                case 'true-false':
+                     questionData.statements.forEach((_, index) => {
+                        const selected = questionBlock.querySelector(`input[name="q${questionData.id}_stmt${index + 1}"]:checked`);
+                        if (!selected || selected.value !== questionData.correctAnswers[index]) {
+                            isCorrect = false;
+                        }
+                    });
+                     if (isCorrect) {
+                        questionData.statements.forEach((_, index) => {
+                            const container = document.getElementById(`q${questionData.id}_stmt_cont${index + 1}`);
+                            container.classList.add('correct-answer');
+                        });
+                        allInputsInBlock.forEach(input => input.disabled = true);
+                     }
+                    break;
+                
+                case 'open-answer':
+                    const openInputs = questionBlock.querySelectorAll('input[type="text"]');
+                    const userAnswersSet = new Set();
+                    openInputs.forEach(input => {
+                        const normalized = normalizeGreek(input.value.trim());
+                        if (normalized) {
+                            userAnswersSet.add(normalized);
+                        }
+                    });
+
+                    const correctAnswersNormalized = questionData.correctAnswers.map(ans => normalizeGreek(ans));
+                    let correctCount = 0;
+                    
+                    userAnswersSet.forEach(userAns => {
+                        if (correctAnswersNormalized.includes(userAns)) {
+                            correctCount++;
+                        }
+                    });
+
+                    if (correctCount >= questionData.required) {
+                        isCorrect = true;
+                    } else {
+                        isCorrect = false;
+                    }
+
+                    openInputs.forEach(input => {
+                        const normalizedInput = normalizeGreek(input.value.trim());
+                        if (normalizedInput && correctAnswersNormalized.includes(normalizedInput)) {
+                            input.classList.add('correct-answer');
+                        } else if (input.value.trim() !== '') {
+                            input.classList.add('incorrect-answer');
+                        }
+                    });
+
+                    if (isCorrect) {
+                        allInputsInBlock.forEach(input => input.disabled = true);
+                    }
+                    break;
+            }
+            
+            const confirmButton = document.getElementById(`btn_${questionId}`);
+            const retryButton = document.getElementById(`retry_btn_${questionId}`);
+
+            if (isCorrect) {
+                confirmButton.disabled = true;
+                confirmButton.classList.add('opacity-50', 'cursor-not-allowed');
+                retryButton.classList.add('hidden');
+            } else {
+                confirmButton.classList.add('hidden');
+                retryButton.classList.remove('hidden');
+            }
+        }
+
+        function retryQuestion(questionId) {
+            const questionBlock = document.getElementById(`question-block-${questionId}`);
+            if (!questionBlock) return;
+
+            const allInputs = questionBlock.querySelectorAll('input, select, textarea');
+            allInputs.forEach(input => {
+                input.disabled = false;
+                if(input.type === 'radio') {
+                    input.checked = false;
+                } else if (input.tagName.toLowerCase() === 'select') {
+                    input.selectedIndex = 0;
+                } else {
+                    input.value = '';
+                }
+            });
+
+            const coloredElements = questionBlock.querySelectorAll('.correct-answer, .incorrect-answer');
+            coloredElements.forEach(el => {
+                el.classList.remove('correct-answer', 'incorrect-answer');
+            });
+
+            const confirmButton = document.getElementById(`btn_${questionId}`);
+            if (confirmButton) {
+                confirmButton.classList.remove('hidden');
+            }
+            const retryButton = document.getElementById(`retry_btn_${questionId}`);
+            if (retryButton) {
+                retryButton.classList.add('hidden');
+            }
+        }
+    </script>
+
+</body>
+</html>
