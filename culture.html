@@ -101,8 +101,7 @@
         <main class="w-full max-w-5xl mx-auto">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <div id="topics-container" class="space-y-8">
-                    <!-- Питання генеруються тут -->
-                </div>
+                    </div>
             </div>
         </main>
 
@@ -117,8 +116,15 @@
             { id: 3, type: 'matching', question: 'Αντιστοιχίσετε τους όρους της στήλης Ι με τους όρους της στήλης ΙΙ.', col1: ['Νίκη της Σαμοθράκης', 'Δισκοβόλος του Μύρωνα', 'Ερμής του Πραξιτέλη', 'Ο Ηνίοχος'], col2: ['Βρετανικό Μουσείο, Λονδίνο', 'Μουσείο του Λούβρου, Παρίσι', 'Αρχαιολογικό Μουσείο Δελφών', 'Αρχαιολογικό Μουσείο Αρχαίας Ολυμπίας'], correctAnswer: { '1': 'Β', '2': 'Α', '3': 'Δ', '4': 'Γ' } },
             // --- Multiple Choice ---
             { id: 4, type: 'multiple-choice', question: 'Σύμφωνα με τη Θεογονία του Ησίοδου, η θεά Αφροδίτη γεννήθηκε:', options: ['από τον αφρό της θάλασσας', 'σε μία σπηλιά της Αφρικής', 'από τον άφρονα Κένταυρο Ακταίωνα', 'από την αφράτη ζύμη της αμβροσίας'], correctAnswer: 'Α' },
-            // --- Converted Fill-in-the-blanks to Multiple Choice ---
-            { id: 5, type: 'multiple-choice', question: 'Ποια από τις παρακάτω επιλογές περιλαμβάνει τέσσερις από τους Δώδεκα Θεούς του Ολύμπου;', options: ['Δίας, Ήρα, Ηρακλής, Άρης', 'Ποσειδώνας, Απόλλωνας, Αθηνά, Αφροδίτη', 'Ερμής, Άρτεμις, Περσεφόνη, Δήμητρα', 'Ήφαιστος, Εστία, Πλούτωνας, Αχιλλέας'], correctAnswer: 'Β' },
+            // --- MODIFIED: Question 5 ---
+            { 
+                id: 5, 
+                type: 'fill-in-the-blanks', 
+                question: 'Συμπληρώστε τα ονόματα τεσσάρων από τους Δώδεκα Θεούς του Ολύμπου.', 
+                sentences: ['(1) ______', '(2) ______', '(3) ______', '(4) ______'], 
+                correctAnswers: ['Δίας', 'Ήρα', 'Ποσειδώνας', 'Απόλλωνας', 'Αθηνά', 'Αφροδίτη', 'Άρης', 'Ερμής', 'Άρτεμις', 'Δήμητρα', 'Εστία', 'Ήφαιστος'], 
+                hint: 'Μπορείτε να επιλέξετε οποιουσδήποτε τέσσερις από τους Δώδεκα Θεούς του Ολύμπου.' 
+            },
             // --- Matching ---
             { id: 6, type: 'matching', question: 'Αντιστοιχίσετε τους όρους της στήλης Ι με τους όρους της στήλης ΙΙ.', col1: ['Νύμφες', 'Χάριτες', 'Ερινύες', 'Μούσες'], col2: ['θεότητες των Τεχνών και των Γραμμάτων', 'ημίθεες σχετιζόμενες με τα ποτάμια, τις λίμνες και τη βλάστηση', 'θεές της γοητείας, της δημιουργίας και της γονιμότητος', 'θεότητες-τιμωροί εγκληματιών ηθικής και φυσικής τάξεως πραγμάτων'], correctAnswer: { '1': 'Β', '2': 'Γ', '3': 'Δ', '4': 'Α' } },
             // --- Multiple Choice ---
@@ -171,8 +177,15 @@
             },
             // --- Fill in the Blanks ---
             { id: 17, type: 'fill-in-the-blanks', question: 'Συμπληρώστε τα κενά στις παρακάτω προτάσεις.', sentences: ['Το Μαντείο (1) ______ στους Δελφούς ήταν ένα από τα πιο φημισμένα της Αρχαιότητος.', 'Όμως το παλαιότερο Μαντείο ήταν (2) ______ στη Δωδώνη.', 'Σπουδαίο μαντείο για τους Έλληνες αποτέλεσε και αυτό (3) ______ στην Αίγυπτο.', 'στον Μεσοπόταμο Πρεβέζης ήταν (4) ______ όπου οι συγγενείς επικοινωνούσαν με τις ψυχές των νεκρών.'], correctAnswers: ['του Απόλλωνα', 'του Δία', 'του Άμμωνος Δία', 'το Νεκρομαντείο'], hint: 'Επιλογές: Α. του Δία, Β. του Απόλλωνα, Γ. το Νεκρομαντείο, Δ. του Άμμωνος Δία' },
-            // --- Image Choice ---
-            { id: 18, type: 'image-choice', question: 'Ποια από τις παρακάτω μορφές απεικονίζει τον βασιλέα της Μακεδονίας Αλέξανδρο τον Μέγα;', imageUrl: 'data:image/jpeg;base64,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', options: ['Εικ. Α', 'Εικ. Β', 'Εικ. Γ', 'Εικ. Δ'], correctAnswer: 'Β' },
+            // --- MODIFIED: Question 18 ---
+            { 
+                id: 18, 
+                type: 'multiple-image-choice', 
+                question: 'Ποια από τις παρακάτω μορφές απεικονίζει τον βασιλέα της Μακεδονίας Αλέξανδρο τον Μέγα;', 
+                imageUrls: ['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Pompeii_-_Casa_del_Fauno_-_MAN_10020_-_Mosaic_Alexander_the_Great_-_Detail_of_Darius_III.jpg/440px-Pompeii_-_Casa_del_Fauno_-_MAN_10020_-_Mosaic_Alexander_the_Great_-_Detail_of_Darius_III.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Alexander_the_Great_mosaic_from_Pompeii.jpg/440px-Alexander_the_Great_mosaic_from_Pompeii.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Leonidas-statue-Sparta.jpg/440px-Leonidas-statue-Sparta.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Bust_of_Pericles_Pio-Clementino_Inv269.jpg/440px-Bust_of_Pericles_Pio-Clementino_Inv269.jpg'], 
+                options: ['Εικ. Α', 'Εικ. Β', 'Εικ. Γ', 'Εικ. Δ'], 
+                correctAnswers: ['Β'] 
+            },
             // --- Matching ---
             { id: 19, type: 'matching', question: 'Αντιστοιχίσετε τους όρους της στήλης Ι με τους όρους της στήλης ΙΙ.', col1: ['Ποσειδώνας', 'Ερμής', 'Άρης', 'Διόνυσος'], col2: ['δόρυ', 'αμπέλι', 'τρίαινα', 'φτερωτά σανδάλια'], correctAnswer: { '1': 'Γ', '2': 'Δ', '3': 'Α', '4': 'Β' } },
             // --- True/False ---
@@ -261,19 +274,14 @@
             { id: 54, type: 'matching', question: 'Αντιστοιχίσετε τον συγγραφέα με το έργο του.', col1: ['Πηνελόπη Δέλτα', 'Μαρία Ιορδανίδου', 'Νίκος Καζαντζάκης', 'Αλέξανδρος Παπαδιαμάντης'], col2: ['Βίος και Πολιτεία του Αλέξη Ζορμπά', 'Η Φόνισσα', 'Τα μυστικά του βάλτου', 'Λωξάντρα'], correctAnswer: { '1': 'Γ', '2': 'Δ', '3': 'Α', '4': 'Β' } },
             // --- Multiple Choice ---
             { id: 55, type: 'multiple-choice', question: 'Ποιος από τους παρακάτω Έλληνες συγγραφείς ανήκει στον χώρο της παιδικής λογοτεχνίας;', options: ['Γιώργος Ιωάννου', 'Ισίδωρος Ζουργός', 'Αντώνης Σαμαράκης', 'Ευγένιος Τριβιζάς'], correctAnswer: 'Δ' },
-            // --- Fill in the Blanks ---
+            // --- MODIFIED: Question 56 ---
             { 
                 id: 56, 
-                type: 'fill-in-the-blanks', 
-                question: 'Συμπληρώστε τα κενά στις παρακάτω προτάσεις.', 
-                sentences: [
-                    'Ένα από τα πιο γνωστά λογοτεχνικά έργα της συγγραφέως Άλκης Ζέη είναι (1) _____.', 
-                    'Ο συγγραφέας Τάσος Αθανασιάδης έγραψε το μυθιστόρημα (2) _____.', 
-                    'Ο συγγραφέας Αλέξανδρος Παπαδιαμάντης έγραψε το λογοτεχνικό έργο (3) _____.', 
-                    '(4) _____ είναι ένα από τα σπουδαιότερα μυθιστορήματα του λογοτέхνη Ηλία Βενέζη.'
-                ], 
-                correctAnswers: ['η Αρραβωνιαστικιά του Αχιλλέα', 'Οι Πανθέοι', 'Οι Έμποροι των Εθνών', 'Το νούμερο 31328'], 
-                hint: 'Επιλογές: Α. Οι Έμποροι των Εθνών, Β. Το νούμερο 31328, Γ. η Αρραβωνιαστικιά του Αχιλλέα, Δ. Οι Πανθέοι' 
+                type: 'matching', 
+                question: 'Αντιστοιχίσετε τον συγγραφέα με το έργο του.', 
+                col1: ['Άλκη Ζέη', 'Τάσος Αθανασιάδης', 'Αλέξανδρος Παπαδιαμάντης', 'Ηλίας Βενέζης'], 
+                col2: ['Οι Πανθέοι', 'Το νούμερο 31328', 'η Αρραβωνιαστικιά του Αχιλλέα', 'Οι Έμποροι των Εθνών'], 
+                correctAnswer: { '1': 'Γ', '2': 'Δ', '3': 'Α', '4': 'Β' } 
             },
             // --- Multiple Choice ---
             { id: 57, type: 'multiple-choice', question: 'Ο Σπύρος Λούης κέρδισε το πρώτο μετάλλιο των Ολυμπιακών Αγώνων (1896) στην Αθήνα στο αγώνισμα:', options: ['του δίσκου', 'του ακόντιου', 'της πάλης', 'του δρόμου'], correctAnswer: 'Δ' },
@@ -452,32 +460,14 @@
 
                 case 'fill-in-the-blanks':
                     let fillHTML = '<div class="space-y-4 mt-4">';
-                    let blankCounter = 1;
+                    let blankCounter = 1; // Counter for unique IDs
                     q.sentences.forEach((sentence) => {
-                        let replacedSentence = sentence;
-                        // Replace all instances of the blank placeholder in the sentence
-                        while (replacedSentence.includes('_____')) {
-                            const inputField = `<input type="text" id="q${q.id}_blank${blankCounter}" class="border-2 rounded p-1 mx-1" style="width: 150px;">`;
-                            replacedSentence = replacedSentence.replace(/(\(\d+\)) _____/, (match, p1) => {
-                                const currentNum = parseInt(p1.match(/\d+/)[0]);
-                                if (currentNum === blankCounter) {
-                                    return `(${blankCounter}) ${inputField}`;
-                                }
-                                return match; // Should not happen if numbers are sequential
-                            });
-                             // This regex replacement ensures we replace one blank at a time
-                            replacedSentence = replacedSentence.replace('_____', inputField);
-                            blankCounter++;
-                        }
-                         // Re-add numbers if they were stripped
-                        let finalSentence = sentence;
-                        let fieldIndex = 1;
-                        finalSentence = finalSentence.replace(/_____/g, () => {
-                             const inputField = `<input type="text" id="q${q.id}_blank${fieldIndex}" class="border-2 rounded p-1 mx-1" style="width: 150px;">`;
-                             fieldIndex++;
+                        // Replace all blanks in the current sentence
+                        let finalSentence = sentence.replace(/_____/g, () => {
+                             const inputField = `<input type="text" id="q${q.id}_blank${blankCounter}" class="border-2 rounded p-1 mx-1" style="width: 150px;">`;
+                             blankCounter++; // Increment for the next blank
                              return inputField;
                         });
-
 
                         fillHTML += `<div>${finalSentence.replace(/\((\d+)\)/g, '<span class="font-bold">($1)</span>')}</div>`;
                     });
@@ -638,19 +628,51 @@
                     break;
                 
                 case 'fill-in-the-blanks':
-                    const textInputs = questionBlock.querySelectorAll(`input[type="text"]`);
-                    textInputs.forEach((input, index) => {
-                        const normalizedUserInput = normalizeGreek(input.value.trim());
-                        const normalizedCorrectAnswer = normalizeGreek(questionData.correctAnswers[index].trim());
-                        if (normalizedUserInput === normalizedCorrectAnswer) {
-                            input.classList.add('correct-answer');
-                            input.classList.remove('incorrect-answer');
-                        } else {
-                           isCorrect = false;
-                           input.classList.add('incorrect-answer');
-                           input.classList.remove('correct-answer');
-                        }
-                    });
+                    // Special logic for question 5
+                    if (questionData.id === 5) {
+                        const textInputs = questionBlock.querySelectorAll('input[type="text"]');
+                        const userAnswers = Array.from(textInputs).map(input => normalizeGreek(input.value.trim()));
+                        const normalizedCorrectAnswers = questionData.correctAnswers.map(ans => normalizeGreek(ans));
+
+                        const filledAnswers = userAnswers.filter(ans => ans !== '');
+                        const uniqueFilledAnswers = new Set(filledAnswers);
+
+                        const allAnswersAreValid = filledAnswers.every(ans => normalizedCorrectAnswers.includes(ans));
+
+                        // The overall answer is correct only if 4 unique, valid answers are provided
+                        isCorrect = filledAnswers.length === 4 && uniqueFilledAnswers.size === 4 && allAnswersAreValid;
+
+                        // Apply styles to individual inputs
+                        textInputs.forEach((input, index) => {
+                            const currentAnswer = userAnswers[index];
+                            // An answer is a duplicate if it's not empty and appears before its current position
+                            const isDuplicate = currentAnswer !== '' && userAnswers.indexOf(currentAnswer) !== index;
+                            const isValidInList = normalizedCorrectAnswers.includes(currentAnswer);
+
+                            if (currentAnswer !== '' && isValidInList && !isDuplicate) {
+                                input.classList.add('correct-answer');
+                                input.classList.remove('incorrect-answer');
+                            } else {
+                                // Mark as incorrect if empty, not in the list, or a duplicate
+                                input.classList.add('incorrect-answer');
+                                input.classList.remove('correct-answer');
+                            }
+                        });
+                    } else { // Original logic for other fill-in-the-blanks questions
+                        const textInputs = questionBlock.querySelectorAll(`input[type="text"]`);
+                        textInputs.forEach((input, index) => {
+                            const normalizedUserInput = normalizeGreek(input.value.trim());
+                            const normalizedCorrectAnswer = normalizeGreek(questionData.correctAnswers[index].trim());
+                            if (normalizedUserInput === normalizedCorrectAnswer) {
+                                input.classList.add('correct-answer');
+                                input.classList.remove('incorrect-answer');
+                            } else {
+                               isCorrect = false;
+                               input.classList.add('incorrect-answer');
+                               input.classList.remove('correct-answer');
+                            }
+                        });
+                    }
                     break;
                 
                 case 'inline-choice':
@@ -734,5 +756,3 @@
 
 </body>
 </html>
-
-
