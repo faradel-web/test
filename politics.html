@@ -248,11 +248,12 @@
 
                 case 'matching':
                     let matchingHTML = '<div class="mt-4 space-y-2">';
+                    const matchingOptionChars = ['Α', 'Β', 'Γ', 'Δ'];
                     q.col1.forEach((item, index) => {
                         matchingHTML += `<div class="flex items-center gap-4"><div class="w-1/2">${index + 1}. ${item}</div><div class="w-1/2"><select id="q${q.id}_match${index + 1}" class="border-2 rounded p-1 w-full">`;
                         matchingHTML += '<option value="">--</option>';
                         q.col2.forEach((cat, catIndex) => {
-                             matchingHTML += `<option value="${Object.keys(q.correctAnswers)[catIndex]}">${cat}</option>`;
+                             matchingHTML += `<option value="${matchingOptionChars[catIndex]}">${cat}</option>`;
                         });
                         matchingHTML += `</select></div></div>`;
                     });
@@ -526,7 +527,3 @@
 
 </body>
 </html>
-
-
-
-
