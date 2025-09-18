@@ -20,6 +20,23 @@
 </head>
 <body>
 
+    <script>
+        // --- Скрипт перевірки авторизації ---
+        // Цей скрипт перевіряє, чи користувач увійшов у систему.
+        (function() {
+            const loginTimestamp = sessionStorage.getItem('loginTimestamp');
+            const now = new Date().getTime();
+            const oneHour = 3600 * 1000; // 1 година в мілісекундах
+
+            // Якщо позначки про вхід немає або вона старша за годину,
+            // користувача буде перенаправлено на сторінку входу.
+            if (!loginTimestamp || (now - loginTimestamp > oneHour)) {
+                sessionStorage.removeItem('loginTimestamp'); // Видаляємо стару позначку
+                window.location.replace('./main.html');
+            }
+        })();
+    </script>
+
     <div class="min-h-screen flex flex-col items-center justify-center p-6 relative">
         
         <!-- Кнопка виходу, додана у верхній правий кут -->
@@ -41,7 +58,7 @@
                 <div class="mb-12">
                     <p class="text-4xl text-gray-800 font-bold">ΠΡΑΚΤΙΚΟΣ ΟΔΗΓΟΣ</p>
                     <p class="text-lg text-gray-600 mt-2">Εξετάσεις Πιστοποιητικού Επάρκειας Γνώσεων</p>
-                    <p class="text-lg text-gray-600">για Πολιτογράφηση (Π.Ε.Γ.Π)</p>
+                    <p class="text-lg text-gray-600">για Πολιтоγράφηση (Π.Ε.Γ.Π)</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -76,7 +93,9 @@
 
         // Функція для перенаправлення на сторінку входу
         const logout = () => {
-            window.location.href = 'main.html';
+            // Очищаємо позначку часу перед виходом
+            sessionStorage.removeItem('loginTimestamp');
+            window.location.href = './main.html';
         };
 
         // 1. Обробка кнопки виходу
@@ -100,9 +119,6 @@
         document.onkeydown = resetInactivityTimer;
         document.onclick = resetInactivityTimer;
         
-        // Примітка щодо виходу при закритті вкладки:
-        // Сучасні браузери не дозволяють надійно перенаправляти користувача при закритті вкладки.
-        // Сесія автоматично завершиться. При наступному відвідуванні сайту користувач почне з 'main.html'.
     </script>
 
 </body>
