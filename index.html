@@ -22,6 +22,11 @@
 
     <div class="min-h-screen flex flex-col items-center justify-center p-6 relative">
         
+        <!-- Кнопка виходу, додана у верхній правий кут -->
+        <button id="logout-button" class="absolute top-6 right-6 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300 z-10">
+            ΕΞΟΔΟΣ
+        </button>
+
         <div class="w-full max-w-4xl">
             <!-- Основний контент -->
             <div class="text-center">
@@ -66,11 +71,39 @@
         </div>
     </div>
 
+    <script>
+        // --- Логіка виходу з системи ---
+
+        // Функція для перенаправлення на сторінку входу
+        const logout = () => {
+            window.location.href = 'main.html';
+        };
+
+        // 1. Обробка кнопки виходу
+        const logoutButton = document.getElementById('logout-button');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', logout);
+        }
+
+        // 2. Автоматичний вихід через 1 годину неактивності
+        let inactivityTimer;
+
+        const resetInactivityTimer = () => {
+            clearTimeout(inactivityTimer);
+            // Встановлюємо таймер на 1 годину (3600 * 1000 мілісекунд)
+            inactivityTimer = setTimeout(logout, 3600000); 
+        };
+
+        // Скидаємо таймер при будь-якій активності користувача
+        window.onload = resetInactivityTimer;
+        document.onmousemove = resetInactivityTimer;
+        document.onkeydown = resetInactivityTimer;
+        document.onclick = resetInactivityTimer;
+        
+        // Примітка щодо виходу при закритті вкладки:
+        // Сучасні браузери не дозволяють надійно перенаправляти користувача при закритті вкладки.
+        // Сесія автоматично завершиться. При наступному відвідуванні сайту користувач почне з 'main.html'.
+    </script>
+
 </body>
 </html>
-
-
-
-
-
-
